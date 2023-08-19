@@ -1,0 +1,187 @@
+import { RequestContext } from "../compose/mod.ts";
+import "../cookie/mod.ts";
+import type { CookieSerializeOptions } from "../cookie/mod.ts";
+
+declare module "../compose/mod.ts" {
+	interface RequestContextExtensions {
+		/** Session */
+		session: Session;
+	}
+}
+
+export interface Session {
+	/**
+	 * Session data. You can redefine its type like this:
+	 *
+	 * ```ts
+	 * import "@hattip/session";
+	 *
+	 * declare module "@hattip/session" {
+	 *   interface SessionData {
+	 *     userId: string; // Example
+	 *   }
+	 * }
+	 * ```
+	 */
+	data: SessionData;
+
+	/** Is this a newly created session? */
+	readonly isFresh: boolean;
+
+	/** Regenerate the session ID */
+	regenerate(): Promise<void>;
+
+	/** Destroy the session */
+	destroy(): Promise<void>;
+}
+
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface SessionData {}
+
+export interface SessionOptions {
+	/** Store that persists session data */
+	store: SessionStore;
+	/** Get session ID from the request. A cookie is used if not provided. */
+	getSessionId?: (ctx: RequestContext) => string | undefined;
+	/** Send a session ID to the client. A cookie is used if not provided. */
+	setSessionId?: (
+		ctx: RequestContext,
+		response: Response,
+		id: string | null,
+		maxAge?: number,
+	) => string | undefined;
+	/**
+	 * Default session data or a function that returns it. If not a function,
+	 * it is shallow-cloned. If you need a deep copy, use a function.
+	 */
+	defaultSessionData:
+		| SessionData
+		| ((ctx: RequestContext) => Awaitable<SessionData>);
+	/** Name of the session cookie. Ignored if `getSessionId` is provided */
+	cookieName?: string;
+	/** Hash function to detect session changes */
+	hash?(data: SessionData): Awaitable<any>;
+	/** Cookie serialization options */
+	cookieOptions?: CookieSerializeOptions;
+}
+
+export type Awaitable<T> = T | Promise<T>;
+
+export interface SessionStore {
+	load(id: string, ctx: RequestContext): Awaitable<SessionData | null>;
+
+	save(
+		id: string | null,
+		data: SessionData,
+		maxAge: number,
+		ctx: RequestContext,
+	): Awaitable<string>;
+
+	destroy(id: string, ctx: RequestContext): Awaitable<void>;
+}
+
+export function session(options: SessionOptions) {
+	const {
+		defaultSessionData,
+		cookieName = "session",
+		hash = JSON.stringify,
+		cookieOptions,
+		getSessionId = (ctx) => ctx.cookie[cookieName],
+		setSessionId = (ctx, _response, id, maxAge) => {
+			if (id === null) {
+				ctx.deleteCookie(cookieName, cookieOptions);
+			} else {
+				ctx.setCookie(cookieName, id, { ...cookieOptions, maxAge });
+			}
+		},
+	} = options;
+
+	const maxAge =
+		(cookieOptions?.maxAge ? cookieOptions.maxAge * 1000 : undefined) ??
+		(cookieOptions?.expires
+			? cookieOptions.expires.getTime() - Date.now()
+			: 5 * 60 * 1000);
+
+	return async (ctx: RequestContext) => {
+		const sessionId = getSessionId(ctx);
+
+		let data: SessionData | null = null;
+
+		if (sessionId) {
+			data = await options.store.load(sessionId, ctx);
+		}
+
+		const isFresh = !data;
+
+		if (!data) {
+			const defaultData: SessionData =
+				typeof defaultSessionData === "function"
+					? await defaultSessionData(ctx)
+					: { ...defaultSessionData };
+			data = defaultData;
+		}
+
+		const oldHash = await hash(data);
+		let shouldRegenerate = false;
+		let shouldDestroy = false;
+
+		ctx.session = {
+			data,
+			isFresh,
+
+			async regenerate() {
+				shouldRegenerate = true;
+			},
+
+			async destroy() {
+				shouldDestroy = true;
+			},
+		};
+
+		const response = await ctx.next();
+
+		if (shouldDestroy) {
+			if (sessionId) {
+				await options.store.destroy(sessionId, ctx);
+				setSessionId(ctx, response, null, maxAge);
+			}
+
+			return response;
+		}
+
+		if (
+			// Save if we need to regenerate the session ID
+			shouldRegenerate ||
+			// Normally we don't need to save a fresh session
+			// unless it has changed because we can just return the
+			// default session data next time. But when defaultSessionData
+			// is a function, we can't be sure that it returns the same
+			// value every time so we always save a fresh session.
+			(isFresh && typeof defaultSessionData === "function") ||
+			// Save if the session data has changed
+			oldHash !== (await hash(ctx.session.data))
+		) {
+			const newId = await options.store.save(
+				shouldRegenerate ? null : sessionId ?? null,
+				ctx.session.data,
+				maxAge,
+				ctx,
+			);
+			setSessionId(ctx, response, newId, maxAge);
+		}
+
+		return response;
+	};
+}
+
+export interface SessionSerializationOptions {
+	stringify?: (data: SessionData) => string;
+	parse?: (data: string) => SessionData;
+}
+
+export { UnsafeMemorySessionStore } from "./unsafe-memory-store.ts";
+export { SimpleCookieStore } from "./simple-cookie-store.ts";
+export { SignedCookieStore } from "./signed-cookie-store.ts";
+export { EncryptedCookieStore } from "./encrypted-cookie-store.ts";
+export { RedisSessionStore } from "./redis-store.ts";
+export { KvSessionStore } from "./kv-store.ts";

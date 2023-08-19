@@ -1,0 +1,38 @@
+import { cac } from "npm:cac@6.7.14";
+import { version } from "../version.ts";
+import bundler from "./mod.ts";
+
+const cli = cac("hattip-cloudflare-workers");
+
+cli
+	.command(
+		"<input> <output>",
+		"Bundle the HatTip app in <input> into <output> as a Clourflare Workers module",
+	)
+	.option(
+		"-e, --entry",
+		"Interpret <input> as a Cloudflare Workers module entry instead of a HatTip handler entry",
+	)
+	.option("--no-static", "Do not serve static files")
+	.action(
+		async (
+			input: string,
+			output: string,
+			options: {
+				entry: boolean;
+				static: boolean;
+			},
+		) => {
+			await bundler({
+				cfwEntry: options.entry ? input : undefined,
+				handlerEntry: options.entry ? undefined : input,
+				serveStaticFiles: options.entry ? undefined : options.static,
+				output,
+			});
+		},
+	);
+
+cli.help();
+cli.version(version);
+
+cli.parse();
