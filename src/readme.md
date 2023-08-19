@@ -106,7 +106,7 @@ app.listen(3000, "localhost", () => {
 
 ## Middleware system
 
-The `compose` function from the [`@hattip/compose`](./compose) package can be used to compose multiple handlers into a single one, creating a simple but powerful middleware system. Each handler is called in sequence until one returns a response. A handler can pass control to the next handler either by not returning anything or calling `ctx.next()`. The latter allows the handler to modify the response before returning:
+The `compose` function from the [`@hattip/compose`](./compose/readme.md) package can be used to compose multiple handlers into a single one, creating a simple but powerful middleware system. Each handler is called in sequence until one returns a response. A handler can pass control to the next handler either by not returning anything or calling `ctx.next()`. The latter allows the handler to modify the response before returning:
 
 ```js
 import { compose } from "@hattip/compose";
@@ -161,35 +161,35 @@ A handler can return or throw a `Response` or anything with a `toResponse` metho
 
 HatTip is extremely modular so you can use as little or as much as you need:
 
-- [`core`](./core): A type-only package that defines the interface between your application and platform adapters
+- [`core`](./core/readme.md): A type-only package that defines the interface between your application and platform adapters
 - **Adapters:** Enable HatTip to run on any platform:
-  - [`adapter-node`](./adapter-node): Node.js, either as a standalone server or as a middleware function that can be used with Express and similar frameworks. Also works for Vercel Serverless Functions.
-  - [`adapter-cloudflare-workers`](./adapter-cloudflare-workers): Cloudflare Workers
-  - [`adapter-vercel-edge`](./adapter-vercel-edge): Vercel Edge Functions
-  - [`adapter-netlify-functions`](./adapter-netlify-functions): Netlify Functions
-  - [`adapter-netlify-edge`](./adapter-netlify-edge): Netlify Edge Functions
-  - [`adapter-deno`](./adapter-deno): Deno
-  - [`adapter-bun`](./adapter-bun): Bun
-  - [`adapter-fastly`](./adapter-fastly): Fastly
-  - [`adapter-lagon`](./adapter-lagon): Lagon
-  - [`adapter-uwebsockets`](./adapter-uwebsockets): uWebSockets.js
+  - [`adapter-node`](./adapter-node/readme.md): Node.js, either as a standalone server or as a middleware function that can be used with Express and similar frameworks. Also works for Vercel Serverless Functions.
+  - [`adapter-cloudflare-workers`](./adapter-cloudflare-workers/readme.md): Cloudflare Workers
+  - [`adapter-vercel-edge`](./adapter-vercel-edge/readme.md): Vercel Edge Functions
+  - [`adapter-netlify-functions`](./adapter-netlify-functions/readme.md): Netlify Functions
+  - [`adapter-netlify-edge`](./adapter-netlify-edge/readme.md): Netlify Edge Functions
+  - [`adapter-deno`](./adapter-deno/readme.md): Deno
+  - [`adapter-bun`](./adapter-bun/readme.md): Bun
+  - [`adapter-fastly`](./adapter-fastly/readme.md): Fastly
+  - [`adapter-lagon`](./adapter-lagon/readme.md): Lagon
+  - [`adapter-uwebsockets`](./adapter-uwebsockets/readme.md): uWebSockets.js
 - **Bundlers:** Worker and serverless platforms usually require your code to be in bundled form. These packages provide bundlers fine-tuned for their respective platforms:
-  - [`bundler-cloudflare-workers`](./bundler-cloudflare-workers): Cloudflare Workers
-  - [`bundler-vercel`](./bundler-vercel): Vercel edge and serverless functions
-  - [`bundler-netlify`](./bundler-netlify): Netlify edge and Netlify functions
-  - [`bundler-deno`](./bundler-deno): Deno
+  - [`bundler-cloudflare-workers`](./bundler-cloudflare-workers/readme.md): Cloudflare Workers
+  - [`bundler-vercel`](./bundler-vercel/readme.md): Vercel edge and serverless functions
+  - [`bundler-netlify`](./bundler-netlify/readme.md): Netlify edge and Netlify functions
+  - [`bundler-deno`](./bundler-deno/readme.md): Deno
 - Low-level stuff
-  - [`polyfills`](./polyfills): A collection of polyfills used by adapters for compatibility across platforms
-  - [`compose`](./compose): A middleware system for combining multiple handlers into a single one
+  - [`polyfills`](./polyfills/readme.md): A collection of polyfills used by adapters for compatibility across platforms
+  - [`compose`](./compose/readme.md): A middleware system for combining multiple handlers into a single one
 - Utilities and middleware
-  - [`router`](./router): Express-style imperative router
-  - [`response`](./response): Utility functions for creating text, JSON, HTML, and server-sent event responses
-  - [`headers`](./headers): Header value parsing and content negotiation utilities
-  - [`multipart`](./multipart): Experimental multipart parser (e.g. for form data with file uploads)
-  - [`cookie`](./cookie): Cookie handling middleware
-  - [`cors`](./cors): CORS middleware
-  - [`graphql`](./graphql): GraphQL middleware
-  - [`session`](./session): Session middleware
+  - [`router`](./router/readme.md): Express-style imperative router
+  - [`response`](./response/readme.md): Utility functions for creating text, JSON, HTML, and server-sent event responses
+  - [`headers`](./headers/readme.md): Header value parsing and content negotiation utilities
+  - [`multipart`](./multipart/readme.md): Experimental multipart parser (e.g. for form data with file uploads)
+  - [`cookie`](./cookie/readme.md): Cookie handling middleware
+  - [`cors`](./cors/readme.md): CORS middleware
+  - [`graphql`](./graphql/readme.md): GraphQL middleware
+  - [`session`](./session/readme.md): Session middleware
 
 A zero-config development environment based on [Vite](https://vitejs.dev) is also in the works.
 
@@ -199,5 +199,5 @@ A zero-config development environment based on [Vite](https://vitejs.dev) is als
 
 - Code and concept by [Fatih Aygün](https://github.com/cyco130), [Romuald Brillout](https://github.com/brillout), and [contributors](https://github.com/hattipjs/hattip/graphs/contributors).
 - Logo and branding by [Aydıncan Ataberk](https://www.aydincanataberk.com/).
-- The [`cors`](./koajs-cors-license.txt). They are not affiliated with HatTip.
-- The [`graphql`](./graphql-yoga.license.txt). They are not affiliated with HatTip.
+- The [`cors`](./koajs-cors-license/readme.md.txt). They are not affiliated with HatTip.
+- The [`graphql`](./graphql-yoga/readme.md.license.txt). They are not affiliated with HatTip.
