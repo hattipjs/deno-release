@@ -106,7 +106,7 @@ app.listen(3000, "localhost", () => {
 
 ## Middleware system
 
-The `compose` function from the [`@hattip/compose`](./packages/compose) package can be used to compose multiple handlers into a single one, creating a simple but powerful middleware system. Each handler is called in sequence until one returns a response. A handler can pass control to the next handler either by not returning anything or calling `ctx.next()`. The latter allows the handler to modify the response before returning:
+The `compose` function from the [`@hattip/compose`](./compose) package can be used to compose multiple handlers into a single one, creating a simple but powerful middleware system. Each handler is called in sequence until one returns a response. A handler can pass control to the next handler either by not returning anything or calling `ctx.next()`. The latter allows the handler to modify the response before returning:
 
 ```js
 import { compose } from "@hattip/compose";
@@ -161,35 +161,35 @@ A handler can return or throw a `Response` or anything with a `toResponse` metho
 
 HatTip is extremely modular so you can use as little or as much as you need:
 
-- [`core`](./packages/base/core): A type-only package that defines the interface between your application and platform adapters
+- [`core`](./core): A type-only package that defines the interface between your application and platform adapters
 - **Adapters:** Enable HatTip to run on any platform:
-  - [`adapter-node`](./packages/adapter/adapter-node): Node.js, either as a standalone server or as a middleware function that can be used with Express and similar frameworks. Also works for Vercel Serverless Functions.
-  - [`adapter-cloudflare-workers`](./packages/adapter/adapter-cloudflare-workers): Cloudflare Workers
-  - [`adapter-vercel-edge`](./packages/adapter/adapter-vercel-edge): Vercel Edge Functions
-  - [`adapter-netlify-functions`](./packages/adapter/adapter-netlify-functions): Netlify Functions
-  - [`adapter-netlify-edge`](./packages/adapter/adapter-netlify-edge): Netlify Edge Functions
-  - [`adapter-deno`](./packages/adapter/adapter-deno): Deno
-  - [`adapter-bun`](./packages/adapter/adapter-bun): Bun
-  - [`adapter-fastly`](./packages/adapter/adapter-fastly): Fastly
-  - [`adapter-lagon`](./packages/adapter/adapter-lagon): Lagon
-  - [`adapter-uwebsockets`](./packages/adapter/adapter-uwebsockets): uWebSockets.js
+  - [`adapter-node`](./adapter-node): Node.js, either as a standalone server or as a middleware function that can be used with Express and similar frameworks. Also works for Vercel Serverless Functions.
+  - [`adapter-cloudflare-workers`](./adapter-cloudflare-workers): Cloudflare Workers
+  - [`adapter-vercel-edge`](./adapter-vercel-edge): Vercel Edge Functions
+  - [`adapter-netlify-functions`](./adapter-netlify-functions): Netlify Functions
+  - [`adapter-netlify-edge`](./adapter-netlify-edge): Netlify Edge Functions
+  - [`adapter-deno`](./adapter-deno): Deno
+  - [`adapter-bun`](./adapter-bun): Bun
+  - [`adapter-fastly`](./adapter-fastly): Fastly
+  - [`adapter-lagon`](./adapter-lagon): Lagon
+  - [`adapter-uwebsockets`](./adapter-uwebsockets): uWebSockets.js
 - **Bundlers:** Worker and serverless platforms usually require your code to be in bundled form. These packages provide bundlers fine-tuned for their respective platforms:
-  - [`bundler-cloudflare-workers`](./packages/bundler/bundler-cloudflare-workers): Cloudflare Workers
-  - [`bundler-vercel`](./packages/bundler/bundler-vercel): Vercel edge and serverless functions
-  - [`bundler-netlify`](./packages/bundler/bundler-netlify): Netlify edge and Netlify functions
-  - [`bundler-deno`](./packages/bundler/bundler-deno): Deno
+  - [`bundler-cloudflare-workers`](./bundler-cloudflare-workers): Cloudflare Workers
+  - [`bundler-vercel`](./bundler-vercel): Vercel edge and serverless functions
+  - [`bundler-netlify`](./bundler-netlify): Netlify edge and Netlify functions
+  - [`bundler-deno`](./bundler-deno): Deno
 - Low-level stuff
-  - [`polyfills`](./packages/base/polyfills): A collection of polyfills used by adapters for compatibility across platforms
-  - [`compose`](./packages/base/compose): A middleware system for combining multiple handlers into a single one
+  - [`polyfills`](./polyfills): A collection of polyfills used by adapters for compatibility across platforms
+  - [`compose`](./compose): A middleware system for combining multiple handlers into a single one
 - Utilities and middleware
-  - [`router`](./packages/base/router): Express-style imperative router
-  - [`response`](./packages/base/response): Utility functions for creating text, JSON, HTML, and server-sent event responses
-  - [`headers`](./packages/base/headers): Header value parsing and content negotiation utilities
-  - [`multipart`](./packages/base/multipart): Experimental multipart parser (e.g. for form data with file uploads)
-  - [`cookie`](./packages/middleware/cookie): Cookie handling middleware
-  - [`cors`](./packages/middleware/cors): CORS middleware
-  - [`graphql`](./packages/middleware/graphql): GraphQL middleware
-  - [`session`](./packages/middleware/session): Session middleware
+  - [`router`](./router): Express-style imperative router
+  - [`response`](./response): Utility functions for creating text, JSON, HTML, and server-sent event responses
+  - [`headers`](./headers): Header value parsing and content negotiation utilities
+  - [`multipart`](./multipart): Experimental multipart parser (e.g. for form data with file uploads)
+  - [`cookie`](./cookie): Cookie handling middleware
+  - [`cors`](./cors): CORS middleware
+  - [`graphql`](./graphql): GraphQL middleware
+  - [`session`](./session): Session middleware
 
 A zero-config development environment based on [Vite](https://vitejs.dev) is also in the works.
 
@@ -199,5 +199,5 @@ A zero-config development environment based on [Vite](https://vitejs.dev) is als
 
 - Code and concept by [Fatih Aygün](https://github.com/cyco130), [Romuald Brillout](https://github.com/brillout), and [contributors](https://github.com/hattipjs/hattip/graphs/contributors).
 - Logo and branding by [Aydıncan Ataberk](https://www.aydincanataberk.com/).
-- The [`cors`](./packages/middleware/cors) package is a port of [koajs/cors](https://github.com/koajs/cors) by koajs and contributors under the [MIT License](./packages/middleware/cors/koajs-cors-license.txt). They are not affiliated with HatTip.
-- The [`graphql`](./packages/middleware/graphql) package comes bundled with `graphql-yoga` which is part of the [GraphQL Yoga](https://github.com/dotansimha/graphql-yoga) project by Graphcool, Prisma, and The Guild, under the [MIT License](./packages/middleware/graphql/graphql-yoga.license.txt). They are not affiliated with HatTip.
+- The [`cors`](./koajs-cors-license.txt). They are not affiliated with HatTip.
+- The [`graphql`](./graphql-yoga.license.txt). They are not affiliated with HatTip.
