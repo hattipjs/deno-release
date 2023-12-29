@@ -1,4 +1,4 @@
-/// <reference types="npm:@cloudflare/workers-types@4.20230807.0"/>
+/// <reference types="npm:@cloudflare/workers-types@4.20230821.0"/>
 
 import type { AdapterRequestContext, HattipHandler } from "../core/mod.ts";
 import type { CloudflareWorkersPlatformInfo } from "./mod.ts";

@@ -34,7 +34,7 @@ import {
   useReadinessCheck,
   useSchema,
   warnPrefix
-} from "./chunk-KCIYDJYR.js";
+} from "./chunk-JEF5Y6WO.js";
 export {
   Repeater,
   YogaServer,
