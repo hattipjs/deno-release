@@ -1,4 +1,4 @@
-import { CookieParseOptions, CookieSerializeOptions } from "https://esm.sh/cookie@0.5.0";
+import { CookieParseOptions, CookieSerializeOptions } from "https://esm.sh/cookie@0.6.0";
 import { cookieParser, CookieParserContext } from "./parse.ts";
 import { cookieSerializer, CookieSerializerContext } from "./serialize.ts";
 

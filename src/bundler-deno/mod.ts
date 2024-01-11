@@ -1,4 +1,4 @@
-import { build, BuildOptions } from "https://deno.land/x/esbuild@v0.19.2/mod.js";
+import { build, BuildOptions } from "https://deno.land/x/esbuild@v0.19.11/mod.js";
 import { builtinModules } from "node:module";
 import path from "node:path";
 import cpr from "npm:cpr@3.0.1";
@@ -50,7 +50,7 @@ export default async function bundle(
 					"performance.js",
 					"process.js",
 					"timers.js",
-			  ].map((file) => path.join(shimsDir, file))
+				].map((file) => path.join(shimsDir, file))
 			: [],
 		platform: "node",
 		target: "chrome96",
@@ -71,12 +71,12 @@ export default async function bundle(
 											path: `${moduleName}`,
 											namespace: "node:require",
 											sideEffects: false,
-									  }
+										}
 									: {
 											path: `node:${moduleName}`,
 											external: true,
 											sideEffects: false,
-									  };
+										};
 							});
 
 							build.onLoad(
@@ -92,7 +92,7 @@ export default async function bundle(
 							);
 						},
 					},
-			  ]
+				]
 			: undefined,
 	};
 

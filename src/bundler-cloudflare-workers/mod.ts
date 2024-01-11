@@ -1,4 +1,4 @@
-import { build, BuildOptions } from "https://deno.land/x/esbuild@v0.19.2/mod.js";
+import { build, BuildOptions } from "https://deno.land/x/esbuild@v0.19.11/mod.js";
 import { builtinModules } from "node:module";
 import path from "node:path";
 import process from "node:process";

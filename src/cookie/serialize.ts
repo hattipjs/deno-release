@@ -1,6 +1,6 @@
 import "../compose/mod.ts";
 import type { RequestContext } from "../compose/mod.ts";
-import { serialize, CookieSerializeOptions } from "https://esm.sh/cookie@0.5.0";
+import { serialize, CookieSerializeOptions } from "https://esm.sh/cookie@0.6.0";
 
 declare module "../compose/mod.ts" {
 	interface RequestContextExtensions {

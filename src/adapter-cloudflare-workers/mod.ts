@@ -1,4 +1,4 @@
-/// <reference types="npm:@cloudflare/workers-types@4.20230821.0"/>
+/// <reference types="npm:@cloudflare/workers-types@4.20231218.0"/>
 /* eslint-disable import/no-unresolved */
 
 import type { AdapterRequestContext, HattipHandler } from "../core/mod.ts";

@@ -1,5 +1,5 @@
 import "../compose/mod.ts";
-import { parse, CookieParseOptions } from "https://esm.sh/cookie@0.5.0";
+import { parse, CookieParseOptions } from "https://esm.sh/cookie@0.6.0";
 
 export type { CookieParseOptions };
 

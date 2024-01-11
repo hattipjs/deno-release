@@ -23,6 +23,7 @@ import {
   map,
   mapAsyncIterator,
   maskError,
+  mergeSchemas,
   pipe,
   renderGraphiQL,
   shouldRenderGraphiQL,
@@ -34,7 +35,7 @@ import {
   useReadinessCheck,
   useSchema,
   warnPrefix
-} from "./chunk-JEF5Y6WO.js";
+} from "./chunk-2DIWSU4Z.js";
 export {
   Repeater,
   YogaServer,
@@ -60,6 +61,7 @@ export {
   map,
   mapAsyncIterator,
   maskError,
+  mergeSchemas,
   pipe,
   renderGraphiQL,
   shouldRenderGraphiQL,
