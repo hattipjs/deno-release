@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-/// <reference types="npm:@fastly/js-compute@3.7.3"/>
+/// <reference types="npm:@fastly/js-compute@3.8.0"/>
 
 import type { AdapterRequestContext, HattipHandler } from "../core/mod.ts";
 import { env } from "fastly:env";

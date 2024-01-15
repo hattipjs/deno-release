@@ -45,7 +45,7 @@ var require_node_ponyfill = __commonJS({
 });
 
 // ../../../node_modules/.pnpm/graphql-yoga@5.1.1_graphql@16.8.1/node_modules/graphql-yoga/esm/error.js
-import { GraphQLError } from "https://esm.sh/graphql@16";
+import { GraphQLError } from "https://esm.sh/graphql@16.8.1";
 import { createGraphQLError } from "https://esm.sh/@graphql-tools/utils@10.0.12";
 function isAggregateError(obj) {
   return obj != null && typeof obj === "object" && "errors" in obj;
@@ -278,7 +278,7 @@ function useReadinessCheck({ endpoint = "/ready", check }) {
 }
 
 // ../../../node_modules/.pnpm/graphql-yoga@5.1.1_graphql@16.8.1/node_modules/graphql-yoga/esm/plugins/use-schema.js
-import { isSchema } from "https://esm.sh/graphql@16";
+import { isSchema } from "https://esm.sh/graphql@16.8.1";
 var useSchema = (schemaDef) => {
   if (schemaDef == null) {
     return {};
@@ -341,7 +341,7 @@ function createSchema(opts) {
 }
 
 // ../../../node_modules/.pnpm/graphql-yoga@5.1.1_graphql@16.8.1/node_modules/graphql-yoga/esm/server.js
-import { parse, specifiedRules, validate } from "https://esm.sh/graphql@16";
+import { parse, specifiedRules, validate } from "https://esm.sh/graphql@16.8.1";
 
 // ../../../node_modules/.pnpm/@envelop+core@5.0.0/node_modules/@envelop/core/esm/document-string-map.js
 var documentStringMap = /* @__PURE__ */ new WeakMap();
@@ -1182,7 +1182,7 @@ var useEngine = (engine) => {
 };
 
 // ../../../node_modules/.pnpm/@graphql-tools+executor@1.2.0_graphql@16.8.1/node_modules/@graphql-tools/executor/esm/execution/execute.js
-import { assertValidSchema, getDirectiveValues, GraphQLError as GraphQLError2, isAbstractType, isLeafType, isListType, isNonNullType as isNonNullType2, isObjectType, Kind, locatedError, SchemaMetaFieldDef, TypeMetaFieldDef, TypeNameMetaFieldDef } from "https://esm.sh/graphql@16";
+import { assertValidSchema, getDirectiveValues, GraphQLError as GraphQLError2, isAbstractType, isLeafType, isListType, isNonNullType as isNonNullType2, isObjectType, Kind, locatedError, SchemaMetaFieldDef, TypeMetaFieldDef, TypeNameMetaFieldDef } from "https://esm.sh/graphql@16.8.1";
 
 // ../../../node_modules/.pnpm/value-or-promise@1.0.12/node_modules/value-or-promise/build/module/ValueOrPromise.js
 function isPromiseLike(object) {
@@ -1357,7 +1357,7 @@ async function promiseForObject(object, signal) {
 }
 
 // ../../../node_modules/.pnpm/@graphql-tools+executor@1.2.0_graphql@16.8.1/node_modules/@graphql-tools/executor/esm/execution/values.js
-import { coerceInputValue, isInputType, isNonNullType, print, typeFromAST, valueFromAST } from "https://esm.sh/graphql@16";
+import { coerceInputValue, isInputType, isNonNullType, print, typeFromAST, valueFromAST } from "https://esm.sh/graphql@16.8.1";
 import { createGraphQLError as createGraphQLError2, hasOwnProperty, inspect, printPathArray } from "https://esm.sh/@graphql-tools/utils@10.0.12";
 function getVariableValues(schema, varDefNodes, inputs, options) {
   const errors = [];
@@ -2391,7 +2391,7 @@ function getFieldDef(schema, parentType, fieldNode) {
 }
 
 // ../../../node_modules/.pnpm/@graphql-tools+executor@1.2.0_graphql@16.8.1/node_modules/@graphql-tools/executor/esm/execution/normalizedExecutor.js
-import { getOperationAST } from "https://esm.sh/graphql@16";
+import { getOperationAST } from "https://esm.sh/graphql@16.8.1";
 function normalizedExecutor(args) {
   const operationAST = getOperationAST(args.document, args.operationName);
   if (operationAST == null) {
@@ -3675,7 +3675,7 @@ function useLimitBatching(limit) {
 }
 
 // ../../../node_modules/.pnpm/graphql-yoga@5.1.1_graphql@16.8.1/node_modules/graphql-yoga/esm/plugins/request-validation/use-prevent-mutation-via-get.js
-import { getOperationAST as getOperationAST2, GraphQLError as GraphQLError3 } from "https://esm.sh/graphql@16";
+import { getOperationAST as getOperationAST2, GraphQLError as GraphQLError3 } from "https://esm.sh/graphql@16.8.1";
 import { createGraphQLError as createGraphQLError8 } from "https://esm.sh/@graphql-tools/utils@10.0.12";
 function assertMutationViaGet(method, document, operationName) {
   const operation = document ? getOperationAST2(document, operationName) ?? void 0 : void 0;
@@ -5412,7 +5412,7 @@ function useUnhandledRoute(args) {
 }
 
 // ../../../node_modules/.pnpm/graphql-yoga@5.1.1_graphql@16.8.1/node_modules/graphql-yoga/esm/process-request.js
-import { getOperationAST as getOperationAST3 } from "https://esm.sh/graphql@16";
+import { getOperationAST as getOperationAST3 } from "https://esm.sh/graphql@16.8.1";
 async function processResult({ request, result, fetchAPI, onResultProcessHooks }) {
   let resultProcessor;
   const acceptableMediaTypes = [];
