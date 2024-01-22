@@ -1,8 +1,8 @@
-/// <reference types="npm:@cloudflare/workers-types@4.20231218.0"/>
+/// <reference types="npm:@cloudflare/workers-types@4.20240117.0"/>
 /* eslint-disable import/no-unresolved */
 
 import type { AdapterRequestContext, HattipHandler } from "../core/mod.ts";
-import { getAssetFromKV, NotFoundError } from "npm:@cloudflare/kv-asset-handler@0.3.0";
+import { getAssetFromKV, NotFoundError } from "npm:@cloudflare/kv-asset-handler@0.3.1";
 import manifestText from "__STATIC_CONTENT_MANIFEST";
 
 const manifest = JSON.parse(manifestText);
