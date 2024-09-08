@@ -1,9 +1,9 @@
-import { build, BuildOptions } from "https://deno.land/x/esbuild@v0.19.11/mod.js";
+import { build, BuildOptions } from "https://deno.land/x/esbuild@v0.23.1/mod.js";
 import { builtinModules } from "node:module";
 import path from "node:path";
 import os from "node:os";
 import fs from "node:fs";
-import archiver from "npm:archiver@6.0.1";
+import archiver from "npm:archiver@7.0.1";
 
 /**
  * Bundling options

@@ -29,13 +29,14 @@ import {
   shouldRenderGraphiQL,
   useEnvelop,
   useErrorHandler,
+  useExecutionCancellation,
   useExtendContext,
   useLogger,
   usePayloadFormatter,
   useReadinessCheck,
   useSchema,
   warnPrefix
-} from "./chunk-2DIWSU4Z.js";
+} from "./chunk-72GDZF55.js";
 export {
   Repeater,
   YogaServer,
@@ -67,6 +68,7 @@ export {
   shouldRenderGraphiQL,
   useEnvelop,
   useErrorHandler,
+  useExecutionCancellation,
   useExtendContext,
   useLogger,
   usePayloadFormatter,

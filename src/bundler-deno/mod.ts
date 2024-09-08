@@ -1,11 +1,18 @@
-import { build, BuildOptions } from "https://deno.land/x/esbuild@v0.19.11/mod.js";
+import { build, BuildOptions } from "https://deno.land/x/esbuild@v0.23.1/mod.js";
 import { builtinModules } from "node:module";
 import path from "node:path";
 import cpr from "npm:cpr@3.0.1";
 import { promisify } from "node:util";
 import { fileURLToPath } from "node:url";
 
-const shimsDir = fileURLToPath(new URL("../shims", import.meta.url));
+const shimsDir = fileURLToPath(
+	new URL(
+		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+		// @ts-ignore
+		typeof Deno === "undefined" ? "../shims" : "./shims",
+		import.meta.url,
+	),
+);
 
 /**
  * Bundling options

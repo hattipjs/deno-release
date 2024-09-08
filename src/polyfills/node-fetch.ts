@@ -1,4 +1,4 @@
-import * as nodeFetch from "npm:node-fetch-native@1.6.1";
+import * as nodeFetch from "npm:node-fetch-native@1.6.4";
 import { Readable } from "node:stream";
 import installHalfDuplexRequest from "./half-duplex-request.ts";
 

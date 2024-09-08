@@ -44,9 +44,9 @@ var require_node_ponyfill = __commonJS({
   }
 });
 
-// ../../../node_modules/.pnpm/graphql-yoga@5.1.1_graphql@16.8.1/node_modules/graphql-yoga/esm/error.js
-import { GraphQLError } from "https://esm.sh/graphql@16.8.1";
-import { createGraphQLError } from "https://esm.sh/@graphql-tools/utils@10.0.12";
+// ../../../node_modules/.pnpm/graphql-yoga@5.7.0_graphql@16.9.0/node_modules/graphql-yoga/esm/error.js
+import { GraphQLError } from "https://esm.sh/graphql@16.8.2";
+import { createGraphQLError } from "https://esm.sh/@graphql-tools/utils@10.5.4";
 function isAggregateError(obj) {
   return obj != null && typeof obj === "object" && "errors" in obj;
 }
@@ -65,6 +65,9 @@ function isOriginalGraphQLError(val) {
   }
   return false;
 }
+function isAbortError(error) {
+  return typeof error === "object" && error?.constructor?.name === "DOMException" && error.name === "AbortError";
+}
 function handleError(error, maskedErrorsOpts, logger) {
   const errors = /* @__PURE__ */ new Set();
   if (isAggregateError(error)) {
@@ -74,6 +77,8 @@ function handleError(error, maskedErrorsOpts, logger) {
         errors.add(handledError);
       }
     }
+  } else if (isAbortError(error)) {
+    logger.debug("Request aborted");
   } else if (maskedErrorsOpts) {
     const maskedError = maskedErrorsOpts.maskError(error, maskedErrorsOpts.errorMessage, maskedErrorsOpts.isDev);
     if (maskedError !== error) {
@@ -195,10 +200,10 @@ var createLogger = (logLevel = globalThis.process?.env["DEBUG"] === "1" ? "debug
   };
 };
 
-// ../../../node_modules/.pnpm/graphql-yoga@5.1.1_graphql@16.8.1/node_modules/graphql-yoga/esm/graphiql-html.js
-var graphiql_html_default = '<!doctype html><html lang=en><head><meta charset=utf-8><title>__TITLE__</title><link rel=icon href=https://raw.githubusercontent.com/dotansimha/graphql-yoga/main/website/public/favicon.ico><link rel=stylesheet href=https://unpkg.com/@graphql-yoga/graphiql@4.2.1/dist/style.css></head><body id=body class=no-focus-outline><noscript>You need to enable JavaScript to run this app.</noscript><div id=root></div><script type=module>import{renderYogaGraphiQL}from"https://unpkg.com/@graphql-yoga/graphiql@4.2.1/dist/yoga-graphiql.es.js";renderYogaGraphiQL(root,__OPTS__)</script></body></html>';
+// ../../../node_modules/.pnpm/graphql-yoga@5.7.0_graphql@16.9.0/node_modules/graphql-yoga/esm/graphiql-html.js
+var graphiql_html_default = '<!doctype html><html lang=en><head><meta charset=utf-8><title>__TITLE__</title><link rel=icon href=https://raw.githubusercontent.com/dotansimha/graphql-yoga/main/website/public/favicon.ico><link rel=stylesheet href=https://unpkg.com/@graphql-yoga/graphiql@4.3.1/dist/style.css></head><body id=body class=no-focus-outline><noscript>You need to enable JavaScript to run this app.</noscript><div id=root></div><script type=module>import{renderYogaGraphiQL}from"https://unpkg.com/@graphql-yoga/graphiql@4.3.1/dist/yoga-graphiql.es.js";renderYogaGraphiQL(root,__OPTS__)</script></body></html>';
 
-// ../../../node_modules/.pnpm/graphql-yoga@5.1.1_graphql@16.8.1/node_modules/graphql-yoga/esm/plugins/use-graphiql.js
+// ../../../node_modules/.pnpm/graphql-yoga@5.7.0_graphql@16.9.0/node_modules/graphql-yoga/esm/plugins/use-graphiql.js
 function shouldRenderGraphiQL({ headers, method }) {
   return method === "GET" && !!headers?.get("accept")?.includes("text/html");
 }
@@ -245,7 +250,7 @@ function useGraphiQL(config) {
   };
 }
 
-// ../../../node_modules/.pnpm/graphql-yoga@5.1.1_graphql@16.8.1/node_modules/graphql-yoga/esm/plugins/use-readiness-check.js
+// ../../../node_modules/.pnpm/graphql-yoga@5.7.0_graphql@16.9.0/node_modules/graphql-yoga/esm/plugins/use-readiness-check.js
 function useReadinessCheck({ endpoint = "/ready", check }) {
   let urlPattern;
   return {
@@ -277,8 +282,8 @@ function useReadinessCheck({ endpoint = "/ready", check }) {
   };
 }
 
-// ../../../node_modules/.pnpm/graphql-yoga@5.1.1_graphql@16.8.1/node_modules/graphql-yoga/esm/plugins/use-schema.js
-import { isSchema } from "https://esm.sh/graphql@16.8.1";
+// ../../../node_modules/.pnpm/graphql-yoga@5.7.0_graphql@16.9.0/node_modules/graphql-yoga/esm/plugins/use-schema.js
+import { isSchema } from "https://esm.sh/graphql@16.8.2";
 var useSchema = (schemaDef) => {
   if (schemaDef == null) {
     return {};
@@ -334,19 +339,19 @@ var useSchema = (schemaDef) => {
   };
 };
 
-// ../../../node_modules/.pnpm/graphql-yoga@5.1.1_graphql@16.8.1/node_modules/graphql-yoga/esm/schema.js
-import { makeExecutableSchema } from "https://esm.sh/@graphql-tools/schema@10.0.2";
+// ../../../node_modules/.pnpm/graphql-yoga@5.7.0_graphql@16.9.0/node_modules/graphql-yoga/esm/schema.js
+import { makeExecutableSchema } from "https://esm.sh/@graphql-tools/schema@10.0.6";
 function createSchema(opts) {
   return makeExecutableSchema(opts);
 }
 
-// ../../../node_modules/.pnpm/graphql-yoga@5.1.1_graphql@16.8.1/node_modules/graphql-yoga/esm/server.js
-import { parse, specifiedRules, validate } from "https://esm.sh/graphql@16.8.1";
+// ../../../node_modules/.pnpm/graphql-yoga@5.7.0_graphql@16.9.0/node_modules/graphql-yoga/esm/server.js
+import { parse, specifiedRules, validate } from "https://esm.sh/graphql@16.8.2";
 
-// ../../../node_modules/.pnpm/@envelop+core@5.0.0/node_modules/@envelop/core/esm/document-string-map.js
+// ../../../node_modules/.pnpm/@envelop+core@5.0.1/node_modules/@envelop/core/esm/document-string-map.js
 var documentStringMap = /* @__PURE__ */ new WeakMap();
 
-// ../../../node_modules/.pnpm/@envelop+core@5.0.0/node_modules/@envelop/core/esm/utils.js
+// ../../../node_modules/.pnpm/@envelop+core@5.0.1/node_modules/@envelop/core/esm/utils.js
 var envelopIsIntrospectionSymbol = Symbol("ENVELOP_IS_INTROSPECTION");
 function isIntrospectionOperationString(operation) {
   return (typeof operation === "string" ? operation : operation.body).indexOf("__schema") !== -1;
@@ -490,7 +495,7 @@ function errorAsyncIterator(source, onError) {
   return stream;
 }
 
-// ../../../node_modules/.pnpm/@envelop+core@5.0.0/node_modules/@envelop/core/esm/orchestrator.js
+// ../../../node_modules/.pnpm/@envelop+core@5.0.1/node_modules/@envelop/core/esm/orchestrator.js
 function throwEngineFunctionError(name) {
   throw Error(`No \`${name}\` function found! Register it using "useEngine" plugin.`);
 }
@@ -919,7 +924,7 @@ function createEnvelopOrchestrator({ plugins }) {
   };
 }
 
-// ../../../node_modules/.pnpm/@envelop+core@5.0.0/node_modules/@envelop/core/esm/create.js
+// ../../../node_modules/.pnpm/@envelop+core@5.0.1/node_modules/@envelop/core/esm/create.js
 function notEmpty(value) {
   return value != null;
 }
@@ -944,7 +949,7 @@ function envelop(options) {
   return getEnveloped;
 }
 
-// ../../../node_modules/.pnpm/@envelop+core@5.0.0/node_modules/@envelop/core/esm/plugins/use-envelop.js
+// ../../../node_modules/.pnpm/@envelop+core@5.0.1/node_modules/@envelop/core/esm/plugins/use-envelop.js
 var useEnvelop = (envelop2) => {
   let initialized = false;
   return {
@@ -960,7 +965,7 @@ var useEnvelop = (envelop2) => {
   };
 };
 
-// ../../../node_modules/.pnpm/@envelop+core@5.0.0/node_modules/@envelop/core/esm/plugins/use-logger.js
+// ../../../node_modules/.pnpm/@envelop+core@5.0.1/node_modules/@envelop/core/esm/plugins/use-logger.js
 var DEFAULT_OPTIONS = {
   logFn: console.log
 };
@@ -1002,7 +1007,7 @@ var useLogger = (rawOptions = DEFAULT_OPTIONS) => {
   };
 };
 
-// ../../../node_modules/.pnpm/@envelop+core@5.0.0/node_modules/@envelop/core/esm/plugins/use-masked-errors.js
+// ../../../node_modules/.pnpm/@envelop+core@5.0.1/node_modules/@envelop/core/esm/plugins/use-masked-errors.js
 var DEFAULT_ERROR_MESSAGE = "Unexpected error.";
 function isGraphQLError2(error) {
   return error instanceof Error && error.name === "GraphQLError";
@@ -1080,7 +1085,7 @@ function useMaskedErrors(opts) {
   };
 }
 
-// ../../../node_modules/.pnpm/@envelop+core@5.0.0/node_modules/@envelop/core/esm/plugins/use-error-handler.js
+// ../../../node_modules/.pnpm/@envelop+core@5.0.1/node_modules/@envelop/core/esm/plugins/use-error-handler.js
 var makeHandleResult2 = (errorHandler) => ({ result, args }) => {
   if (result.errors?.length) {
     errorHandler({ errors: result.errors, context: args, phase: "execution" });
@@ -1129,14 +1134,14 @@ var useErrorHandler = (errorHandler) => {
   };
 };
 
-// ../../../node_modules/.pnpm/@envelop+core@5.0.0/node_modules/@envelop/core/esm/plugins/use-extend-context.js
+// ../../../node_modules/.pnpm/@envelop+core@5.0.1/node_modules/@envelop/core/esm/plugins/use-extend-context.js
 var useExtendContext = (contextFactory) => ({
   async onContextBuilding({ context, extendContext }) {
     extendContext(await contextFactory(context));
   }
 });
 
-// ../../../node_modules/.pnpm/@envelop+core@5.0.0/node_modules/@envelop/core/esm/plugins/use-payload-formatter.js
+// ../../../node_modules/.pnpm/@envelop+core@5.0.1/node_modules/@envelop/core/esm/plugins/use-payload-formatter.js
 var makeHandleResult3 = (formatter) => ({ args, result, setResult }) => {
   const modified = formatter(result, args);
   if (modified !== false) {
@@ -1154,7 +1159,7 @@ var usePayloadFormatter = (formatter) => ({
   }
 });
 
-// ../../../node_modules/.pnpm/@envelop+core@5.0.0/node_modules/@envelop/core/esm/plugins/use-engine.js
+// ../../../node_modules/.pnpm/@envelop+core@5.0.1/node_modules/@envelop/core/esm/plugins/use-engine.js
 var useEngine = (engine) => {
   return {
     onExecute: ({ setExecuteFn }) => {
@@ -1181,8 +1186,8 @@ var useEngine = (engine) => {
   };
 };
 
-// ../../../node_modules/.pnpm/@graphql-tools+executor@1.2.0_graphql@16.8.1/node_modules/@graphql-tools/executor/esm/execution/execute.js
-import { assertValidSchema, getDirectiveValues, GraphQLError as GraphQLError2, isAbstractType, isLeafType, isListType, isNonNullType as isNonNullType2, isObjectType, Kind, locatedError, SchemaMetaFieldDef, TypeMetaFieldDef, TypeNameMetaFieldDef } from "https://esm.sh/graphql@16.8.1";
+// ../../../node_modules/.pnpm/@graphql-tools+executor@1.3.1_graphql@16.9.0/node_modules/@graphql-tools/executor/esm/execution/execute.js
+import { assertValidSchema, getDirectiveValues, GraphQLError as GraphQLError2, isAbstractType, isLeafType, isListType, isNonNullType as isNonNullType2, isObjectType, Kind, locatedError, SchemaMetaFieldDef, TypeMetaFieldDef, TypeNameMetaFieldDef, versionInfo } from "https://esm.sh/graphql@16.8.2";
 
 // ../../../node_modules/.pnpm/value-or-promise@1.0.12/node_modules/value-or-promise/build/module/ValueOrPromise.js
 function isPromiseLike(object) {
@@ -1270,10 +1275,34 @@ var ValueOrPromise = class _ValueOrPromise {
   }
 };
 
-// ../../../node_modules/.pnpm/@graphql-tools+executor@1.2.0_graphql@16.8.1/node_modules/@graphql-tools/executor/esm/execution/execute.js
-import { collectSubFields as _collectSubfields, addPath, collectFields, createGraphQLError as createGraphQLError3, getArgumentValues, getDefinedRootType, GraphQLStreamDirective, inspect as inspect2, isAsyncIterable as isAsyncIterable2, isIterableObject, isObjectLike, isPromise, mapAsyncIterator as mapAsyncIterator2, memoize1, memoize3, pathToArray, promiseReduce } from "https://esm.sh/@graphql-tools/utils@10.0.12";
+// ../../../node_modules/.pnpm/@graphql-tools+executor@1.3.1_graphql@16.9.0/node_modules/@graphql-tools/executor/esm/execution/execute.js
+import { collectSubFields as _collectSubfields, addPath, collectFields, createGraphQLError as createGraphQLError3, getArgumentValues, getDefinedRootType, GraphQLStreamDirective, inspect as inspect2, isAsyncIterable as isAsyncIterable2, isIterableObject, isObjectLike, isPromise, mapAsyncIterator as mapAsyncIterator2, memoize1, memoize3, pathToArray, promiseReduce } from "https://esm.sh/@graphql-tools/utils@10.5.4";
 
-// ../../../node_modules/.pnpm/@graphql-tools+executor@1.2.0_graphql@16.8.1/node_modules/@graphql-tools/executor/esm/execution/flattenAsyncIterable.js
+// ../../../node_modules/.pnpm/@graphql-tools+executor@1.3.1_graphql@16.9.0/node_modules/@graphql-tools/executor/esm/execution/coerceError.js
+function coerceError(error) {
+  if (error instanceof Error) {
+    return error;
+  }
+  if (typeof error === "object" && error != null) {
+    if ("message" in error && typeof error.message === "string") {
+      let errorOptions;
+      if ("cause" in error) {
+        errorOptions = { cause: error.cause };
+      }
+      const coercedError = new Error(error.message, errorOptions);
+      if ("stack" in error && typeof error.stack === "string") {
+        coercedError.stack = error.stack;
+      }
+      if ("name" in error && typeof error.name === "string") {
+        coercedError.name = error.name;
+      }
+      return coercedError;
+    }
+  }
+  return new Error(String(error));
+}
+
+// ../../../node_modules/.pnpm/@graphql-tools+executor@1.3.1_graphql@16.9.0/node_modules/@graphql-tools/executor/esm/execution/flattenAsyncIterable.js
 function flattenAsyncIterable(iterable) {
   const topIterator = iterable[Symbol.asyncIterator]();
   let currentNestedIterator;
@@ -1335,19 +1364,19 @@ function flattenAsyncIterable(iterable) {
   };
 }
 
-// ../../../node_modules/.pnpm/@graphql-tools+executor@1.2.0_graphql@16.8.1/node_modules/@graphql-tools/executor/esm/execution/invariant.js
+// ../../../node_modules/.pnpm/@graphql-tools+executor@1.3.1_graphql@16.9.0/node_modules/@graphql-tools/executor/esm/execution/invariant.js
 function invariant(condition, message) {
   if (!condition) {
     throw new Error(message != null ? message : "Unexpected invariant triggered.");
   }
 }
 
-// ../../../node_modules/.pnpm/@graphql-tools+executor@1.2.0_graphql@16.8.1/node_modules/@graphql-tools/executor/esm/execution/promiseForObject.js
+// ../../../node_modules/.pnpm/@graphql-tools+executor@1.3.1_graphql@16.9.0/node_modules/@graphql-tools/executor/esm/execution/promiseForObject.js
 async function promiseForObject(object, signal) {
   const resolvedObject = /* @__PURE__ */ Object.create(null);
   await new Promise((resolve, reject2) => {
     signal?.addEventListener("abort", () => {
-      resolve();
+      reject2(signal.reason);
     });
     Promise.all(Object.entries(object).map(async ([key, value]) => {
       resolvedObject[key] = await value;
@@ -1356,9 +1385,9 @@ async function promiseForObject(object, signal) {
   return resolvedObject;
 }
 
-// ../../../node_modules/.pnpm/@graphql-tools+executor@1.2.0_graphql@16.8.1/node_modules/@graphql-tools/executor/esm/execution/values.js
-import { coerceInputValue, isInputType, isNonNullType, print, typeFromAST, valueFromAST } from "https://esm.sh/graphql@16.8.1";
-import { createGraphQLError as createGraphQLError2, hasOwnProperty, inspect, printPathArray } from "https://esm.sh/@graphql-tools/utils@10.0.12";
+// ../../../node_modules/.pnpm/@graphql-tools+executor@1.3.1_graphql@16.9.0/node_modules/@graphql-tools/executor/esm/execution/values.js
+import { coerceInputValue, isInputType, isNonNullType, print, typeFromAST, valueFromAST } from "https://esm.sh/graphql@16.8.2";
+import { createGraphQLError as createGraphQLError2, hasOwnProperty, inspect, printPathArray } from "https://esm.sh/@graphql-tools/utils@10.5.4";
 function getVariableValues(schema, varDefNodes, inputs, options) {
   const errors = [];
   const maxErrors = options?.maxErrors;
@@ -1413,14 +1442,14 @@ function coerceVariableValues(schema, varDefNodes, inputs, onError) {
       }
       onError(createGraphQLError2(prefix + "; " + error.message, {
         nodes: varDefNode,
-        originalError: error.originalError
+        originalError: error
       }));
     });
   }
   return coercedValues;
 }
 
-// ../../../node_modules/.pnpm/@graphql-tools+executor@1.2.0_graphql@16.8.1/node_modules/@graphql-tools/executor/esm/execution/execute.js
+// ../../../node_modules/.pnpm/@graphql-tools+executor@1.3.1_graphql@16.9.0/node_modules/@graphql-tools/executor/esm/execution/execute.js
 var collectSubfields = memoize3((exeContext, returnType, fieldNodes) => _collectSubfields(exeContext.schema, exeContext.fragments, exeContext.variableValues, returnType, fieldNodes));
 function execute(args) {
   const exeContext = buildExecutionContext(args);
@@ -1443,7 +1472,10 @@ function execute(args) {
   return executeImpl(exeContext);
 }
 function executeImpl(exeContext) {
-  return new ValueOrPromise(() => executeOperation(exeContext)).then((data) => {
+  if (exeContext.signal?.aborted) {
+    throw exeContext.signal.reason;
+  }
+  const result = new ValueOrPromise(() => executeOperation(exeContext)).then((data) => {
     const initialResult = buildResponse(data, exeContext.errors);
     if (exeContext.subsequentPayloads.size > 0) {
       return {
@@ -1456,9 +1488,17 @@ function executeImpl(exeContext) {
     }
     return initialResult;
   }, (error) => {
-    exeContext.errors.push(error);
+    if (exeContext.signal?.aborted) {
+      throw exeContext.signal.reason;
+    }
+    if (error.errors) {
+      exeContext.errors.push(...error.errors);
+    } else {
+      exeContext.errors.push(error);
+    }
     return buildResponse(null, exeContext.errors);
   }).resolve();
+  return result;
 }
 function buildResponse(data, errors) {
   return errors.length === 0 ? { data } : { errors, data };
@@ -1553,26 +1593,16 @@ function executeOperation(exeContext) {
   return result;
 }
 function executeFieldsSerially(exeContext, parentType, sourceValue, path, fields) {
-  let abortErrorThrown = false;
   return promiseReduce(fields, (results, [responseName, fieldNodes]) => {
     const fieldPath = addPath(path, responseName, parentType.name);
     if (exeContext.signal?.aborted) {
-      results[responseName] = null;
-      return results;
+      throw exeContext.signal.reason;
     }
     return new ValueOrPromise(() => executeField(exeContext, parentType, sourceValue, fieldNodes, fieldPath)).then((result) => {
       if (result === void 0) {
         return results;
       }
       results[responseName] = result;
-      if (exeContext.signal?.aborted && !abortErrorThrown) {
-        exeContext.errors.push(createGraphQLError3("Execution aborted", {
-          nodes: fieldNodes,
-          path: pathToArray(fieldPath),
-          originalError: exeContext.signal?.reason
-        }));
-        abortErrorThrown = true;
-      }
       return results;
     });
   }, /* @__PURE__ */ Object.create(null)).resolve();
@@ -1580,12 +1610,10 @@ function executeFieldsSerially(exeContext, parentType, sourceValue, path, fields
 function executeFields(exeContext, parentType, sourceValue, path, fields, asyncPayloadRecord) {
   const results = /* @__PURE__ */ Object.create(null);
   let containsPromise = false;
-  let abortErrorThrown = false;
   try {
     for (const [responseName, fieldNodes] of fields) {
       if (exeContext.signal?.aborted) {
-        results[responseName] = null;
-        continue;
+        throw exeContext.signal.reason;
       }
       const fieldPath = addPath(path, responseName, parentType.name);
       const result = executeField(exeContext, parentType, sourceValue, fieldNodes, fieldPath, asyncPayloadRecord);
@@ -1594,14 +1622,6 @@ function executeFields(exeContext, parentType, sourceValue, path, fields, asyncP
         if (isPromise(result)) {
           containsPromise = true;
         }
-      }
-      if (exeContext.signal?.aborted && !abortErrorThrown) {
-        exeContext.errors.push(createGraphQLError3("Execution aborted", {
-          nodes: fieldNodes,
-          path: pathToArray(fieldPath),
-          originalError: exeContext.signal?.reason
-        }));
-        abortErrorThrown = true;
       }
     }
   } catch (error) {
@@ -1638,6 +1658,16 @@ function executeField(exeContext, parentType, source, fieldNodes, path, asyncPay
     }
     if (isPromise(completed)) {
       return completed.then(void 0, (rawError) => {
+        if (rawError instanceof AggregateError) {
+          return new AggregateError(rawError.errors.map((rawErrorItem) => {
+            rawErrorItem = coerceError(rawErrorItem);
+            const error2 = locatedError(rawErrorItem, fieldNodes, pathToArray(path));
+            const handledError2 = handleFieldError(error2, returnType, errors);
+            filterSubsequentPayloads(exeContext, path, asyncPayloadRecord);
+            return handledError2;
+          }));
+        }
+        rawError = coerceError(rawError);
         const error = locatedError(rawError, fieldNodes, pathToArray(path));
         const handledError = handleFieldError(error, returnType, errors);
         filterSubsequentPayloads(exeContext, path, asyncPayloadRecord);
@@ -1646,7 +1676,15 @@ function executeField(exeContext, parentType, source, fieldNodes, path, asyncPay
     }
     return completed;
   } catch (rawError) {
-    const error = locatedError(rawError, fieldNodes, pathToArray(path));
+    if (rawError instanceof AggregateError) {
+      return new AggregateError(rawError.errors.map((rawErrorItem) => {
+        const coercedError2 = coerceError(rawErrorItem);
+        const error2 = locatedError(coercedError2, fieldNodes, pathToArray(path));
+        return handleFieldError(error2, returnType, errors);
+      }));
+    }
+    const coercedError = coerceError(rawError);
+    const error = locatedError(coercedError, fieldNodes, pathToArray(path));
     const handledError = handleFieldError(error, returnType, errors);
     filterSubsequentPayloads(exeContext, path, asyncPayloadRecord);
     return handledError;
@@ -1666,8 +1704,12 @@ function buildResolveInfo(exeContext, fieldDef, fieldNodes, parentType, path) {
     variableValues: exeContext.variableValues
   };
 }
+var CRITICAL_ERROR = "CRITICAL_ERROR";
 function handleFieldError(error, returnType, errors) {
   if (isNonNullType2(returnType)) {
+    throw error;
+  }
+  if (error.extensions?.[CRITICAL_ERROR]) {
     throw error;
   }
   errors.push(error);
@@ -1722,11 +1764,6 @@ function getStreamValues(exeContext, fieldNodes, path) {
 async function completeAsyncIteratorValue(exeContext, itemType, fieldNodes, info, path, iterator, asyncPayloadRecord) {
   exeContext.signal?.addEventListener("abort", () => {
     iterator.return?.();
-    exeContext.errors.push(createGraphQLError3("Execution aborted", {
-      nodes: fieldNodes,
-      path: pathToArray(path),
-      originalError: exeContext.signal?.reason
-    }));
   });
   const errors = asyncPayloadRecord?.errors ?? exeContext.errors;
   const stream = getStreamValues(exeContext, fieldNodes, path);
@@ -1746,7 +1783,8 @@ async function completeAsyncIteratorValue(exeContext, itemType, fieldNodes, info
         break;
       }
     } catch (rawError) {
-      const error = locatedError(rawError, fieldNodes, pathToArray(itemPath));
+      const coercedError = coerceError(rawError);
+      const error = locatedError(coercedError, fieldNodes, pathToArray(itemPath));
       completedResults.push(handleFieldError(error, itemType, errors));
       break;
     }
@@ -1796,6 +1834,7 @@ function completeListItemValue(item, completedResults, errors, exeContext, itemT
     }
     if (isPromise(completedItem)) {
       completedResults.push(completedItem.then(void 0, (rawError) => {
+        rawError = coerceError(rawError);
         const error = locatedError(rawError, fieldNodes, pathToArray(itemPath));
         const handledError = handleFieldError(error, itemType, errors);
         filterSubsequentPayloads(exeContext, itemPath, asyncPayloadRecord);
@@ -1805,7 +1844,8 @@ function completeListItemValue(item, completedResults, errors, exeContext, itemT
     }
     completedResults.push(completedItem);
   } catch (rawError) {
-    const error = locatedError(rawError, fieldNodes, pathToArray(itemPath));
+    const coercedError = coerceError(rawError);
+    const error = locatedError(coercedError, fieldNodes, pathToArray(itemPath));
     const handledError = handleFieldError(error, itemType, errors);
     filterSubsequentPayloads(exeContext, itemPath, asyncPayloadRecord);
     completedResults.push(handledError);
@@ -1841,7 +1881,10 @@ function ensureValidRuntimeType(runtimeTypeName, exeContext, returnType, fieldNo
     throw createGraphQLError3(`Abstract type "${returnType.name}" must resolve to an Object type at runtime for field "${info.parentType.name}.${info.fieldName}". Either the "${returnType.name}" type should provide a "resolveType" function or each possible type should provide an "isTypeOf" function.`, { nodes: fieldNodes });
   }
   if (isObjectType(runtimeTypeName)) {
-    throw createGraphQLError3("Support for returning GraphQLObjectType from resolveType was removed in graphql-js@16.0.0 please return type name instead.");
+    if (versionInfo.major >= 16) {
+      throw createGraphQLError3("Support for returning GraphQLObjectType from resolveType was removed in graphql-js@16.0.0 please return type name instead.");
+    }
+    runtimeTypeName = runtimeTypeName.name;
   }
   if (typeof runtimeTypeName !== "string") {
     throw createGraphQLError3(`Abstract type "${returnType.name}" must resolve to an Object type at runtime for field "${info.parentType.name}.${info.fieldName}" with value ${inspect2(result)}, received "${inspect2(runtimeTypeName)}".`);
@@ -1949,14 +1992,10 @@ function subscribe(args) {
   }
   return mapSourceToResponse(exeContext, resultOrStream);
 }
-function flattenIncrementalResults(incrementalResults, signal) {
+function flattenIncrementalResults(incrementalResults) {
   const subsequentIterator = incrementalResults.subsequentResults;
   let initialResultSent = false;
   let done = false;
-  signal?.addEventListener("abort", () => {
-    done = true;
-    subsequentIterator.throw?.(signal?.reason);
-  });
   return {
     [Symbol.asyncIterator]() {
       return this;
@@ -1987,9 +2026,9 @@ function flattenIncrementalResults(incrementalResults, signal) {
     }
   };
 }
-async function* ensureAsyncIterable(someExecutionResult, signal) {
+async function* ensureAsyncIterable(someExecutionResult) {
   if ("initialResult" in someExecutionResult) {
-    yield* flattenIncrementalResults(someExecutionResult, signal);
+    yield* flattenIncrementalResults(someExecutionResult);
   } else {
     yield someExecutionResult;
   }
@@ -1998,15 +2037,18 @@ function mapSourceToResponse(exeContext, resultOrStream) {
   if (!isAsyncIterable2(resultOrStream)) {
     return resultOrStream;
   }
-  return flattenAsyncIterable(mapAsyncIterator2(resultOrStream[Symbol.asyncIterator](), async (payload) => ensureAsyncIterable(await executeImpl(buildPerEventExecutionContext(exeContext, payload)), exeContext.signal), async function* (error) {
-    const wrappedError = createGraphQLError3(error.message, {
-      originalError: error,
-      nodes: [exeContext.operation]
-    });
-    yield {
-      errors: [wrappedError]
-    };
+  return flattenAsyncIterable(mapAsyncIterator2(resultOrStream, async (payload) => ensureAsyncIterable(await executeImpl(buildPerEventExecutionContext(exeContext, payload))), (error) => {
+    if (error instanceof AggregateError) {
+      throw new AggregateError(error.errors.map((e) => wrapError(e, exeContext.operation)), error.message);
+    }
+    throw wrapError(error, exeContext.operation);
   }));
+}
+function wrapError(error, operation) {
+  return createGraphQLError3(error.message, {
+    originalError: error,
+    nodes: [operation]
+  });
 }
 function createSourceEventStreamImpl(exeContext) {
   try {
@@ -2109,6 +2151,7 @@ function executeStreamField(path, itemPath, item, exeContext, fieldNodes, info, 
       }
       if (isPromise(completedItem)) {
         completedItem = completedItem.then(void 0, (rawError) => {
+          rawError = coerceError(rawError);
           const error = locatedError(rawError, fieldNodes, pathToArray(itemPath));
           const handledError = handleFieldError(error, itemType, asyncPayloadRecord.errors);
           filterSubsequentPayloads(exeContext, itemPath, asyncPayloadRecord);
@@ -2116,7 +2159,8 @@ function executeStreamField(path, itemPath, item, exeContext, fieldNodes, info, 
         });
       }
     } catch (rawError) {
-      const error = locatedError(rawError, fieldNodes, pathToArray(itemPath));
+      const coercedError = coerceError(rawError);
+      const error = locatedError(coercedError, fieldNodes, pathToArray(itemPath));
       completedItem = handleFieldError(error, itemType, asyncPayloadRecord.errors);
       filterSubsequentPayloads(exeContext, itemPath, asyncPayloadRecord);
     }
@@ -2149,7 +2193,8 @@ async function executeStreamIteratorItem(iterator, exeContext, fieldNodes, info,
     }
     item = value;
   } catch (rawError) {
-    const error = locatedError(rawError, fieldNodes, pathToArray(itemPath));
+    const coercedError = coerceError(rawError);
+    const error = locatedError(coercedError, fieldNodes, pathToArray(itemPath));
     const value = handleFieldError(error, itemType, asyncPayloadRecord.errors);
     return { done: true, value };
   }
@@ -2265,11 +2310,20 @@ function getCompletedIncrementalResults(exeContext) {
 }
 function yieldSubsequentPayloads(exeContext) {
   let isDone = false;
+  const abortPromise = new Promise((_, reject2) => {
+    exeContext.signal?.addEventListener("abort", () => {
+      isDone = true;
+      reject2(exeContext.signal?.reason);
+    });
+  });
   async function next() {
     if (isDone) {
       return { value: void 0, done: true };
     }
-    await Promise.race(Array.from(exeContext.subsequentPayloads).map((p) => p.promise));
+    await Promise.race([
+      abortPromise,
+      ...Array.from(exeContext.subsequentPayloads).map((p) => p.promise)
+    ]);
     if (isDone) {
       return { value: void 0, done: true };
     }
@@ -2313,6 +2367,16 @@ function yieldSubsequentPayloads(exeContext) {
   };
 }
 var DeferredFragmentRecord = class {
+  type;
+  errors;
+  label;
+  path;
+  promise;
+  data;
+  parentContext;
+  isCompleted;
+  _exeContext;
+  _resolve;
   constructor(opts) {
     this.type = "defer";
     this.label = opts.label;
@@ -2342,6 +2406,18 @@ var DeferredFragmentRecord = class {
   }
 };
 var StreamRecord = class {
+  type;
+  errors;
+  label;
+  path;
+  items;
+  promise;
+  parentContext;
+  iterator;
+  isCompletedIterator;
+  isCompleted;
+  _exeContext;
+  _resolve;
   constructor(opts) {
     this.type = "stream";
     this.items = null;
@@ -2390,8 +2466,8 @@ function getFieldDef(schema, parentType, fieldNode) {
   return parentType.getFields()[fieldName];
 }
 
-// ../../../node_modules/.pnpm/@graphql-tools+executor@1.2.0_graphql@16.8.1/node_modules/@graphql-tools/executor/esm/execution/normalizedExecutor.js
-import { getOperationAST } from "https://esm.sh/graphql@16.8.1";
+// ../../../node_modules/.pnpm/@graphql-tools+executor@1.3.1_graphql@16.9.0/node_modules/@graphql-tools/executor/esm/execution/normalizedExecutor.js
+import { getOperationAST } from "https://esm.sh/graphql@16.8.2";
 function normalizedExecutor(args) {
   const operationAST = getOperationAST(args.document, args.operationName);
   if (operationAST == null) {
@@ -2402,11 +2478,14 @@ function normalizedExecutor(args) {
   }
   return new ValueOrPromise(() => execute(args)).then((result) => {
     if ("initialResult" in result) {
-      return flattenIncrementalResults(result, args.signal);
+      return flattenIncrementalResults(result);
     }
     return result;
   }).resolve();
 }
+
+// ../../../node_modules/.pnpm/graphql-yoga@5.7.0_graphql@16.9.0/node_modules/graphql-yoga/esm/server.js
+import { mapAsyncIterator as mapAsyncIterator3 } from "https://esm.sh/@graphql-tools/utils@10.5.4";
 
 // fetch.shim.js
 var fetch_shim_exports = {};
@@ -2443,7 +2522,7 @@ function createFetch() {
   };
 }
 
-// ../../../node_modules/.pnpm/@whatwg-node+server@0.9.22/node_modules/@whatwg-node/server/esm/utils.js
+// ../../../node_modules/.pnpm/@whatwg-node+server@0.9.46/node_modules/@whatwg-node/server/esm/utils.js
 function isAsyncIterable3(body) {
   return body != null && typeof body === "object" && typeof body[Symbol.asyncIterator] === "function";
 }
@@ -2477,7 +2556,7 @@ function getHostnameWithPort(nodeRequest) {
 }
 function buildFullUrl(nodeRequest) {
   const hostnameWithPort = getHostnameWithPort(nodeRequest);
-  const protocol = nodeRequest.protocol || "http";
+  const protocol = nodeRequest.protocol || (nodeRequest.socket?.encrypted ? "https" : "http");
   const endpoint = nodeRequest.originalUrl || nodeRequest.url || "/graphql";
   return `${protocol}://${hostnameWithPort}${endpoint}`;
 }
@@ -2489,17 +2568,16 @@ function isRequestBody(body) {
   return false;
 }
 var ServerAdapterRequestAbortSignal = class extends EventTarget {
-  constructor() {
-    super(...arguments);
-    this.aborted = false;
-    this._onabort = null;
-  }
+  aborted = false;
+  _onabort = null;
+  reason;
   throwIfAborted() {
     if (this.aborted) {
-      throw new DOMException("Aborted", "AbortError");
+      throw this.reason;
     }
   }
   sendAbort() {
+    this.reason = new DOMException("This operation was aborted", "AbortError");
     this.aborted = true;
     this.dispatchEvent(new Event("abort"));
   }
@@ -2514,8 +2592,12 @@ var ServerAdapterRequestAbortSignal = class extends EventTarget {
       this.removeEventListener("abort", value);
     }
   }
+  any(signals) {
+    return AbortSignal.any([...signals]);
+  }
 };
 var bunNodeCompatModeWarned = false;
+var nodeRequestResponseMap = /* @__PURE__ */ new WeakMap();
 function normalizeNodeRequest(nodeRequest, RequestCtor) {
   const rawRequest = nodeRequest.raw || nodeRequest.req || nodeRequest;
   let fullUrl = buildFullUrl(rawRequest);
@@ -2527,30 +2609,43 @@ function normalizeNodeRequest(nodeRequest, RequestCtor) {
     fullUrl = url.toString();
   }
   let signal;
-  if (RequestCtor !== globalThis.Request) {
-    signal = new ServerAdapterRequestAbortSignal();
-    if (rawRequest?.once) {
-      rawRequest.once("close", () => {
-        if (rawRequest.aborted) {
-          signal.sendAbort();
-        }
-      });
+  const nodeResponse = nodeRequestResponseMap.get(nodeRequest);
+  nodeRequestResponseMap.delete(nodeRequest);
+  let normalizedHeaders = nodeRequest.headers;
+  if (nodeRequest.headers?.[":method"]) {
+    normalizedHeaders = {};
+    for (const key in nodeRequest.headers) {
+      if (!key.startsWith(":")) {
+        normalizedHeaders[key] = nodeRequest.headers[key];
+      }
     }
-  } else {
-    const controller = new AbortController();
-    signal = controller.signal;
-    if (rawRequest.once) {
-      rawRequest.once("close", () => {
-        if (rawRequest.aborted) {
-          controller.abort();
-        }
-      });
+  }
+  if (nodeResponse?.once) {
+    let sendAbortSignal;
+    if (RequestCtor !== globalThis.Request) {
+      signal = new ServerAdapterRequestAbortSignal();
+      sendAbortSignal = () => signal.sendAbort();
+    } else {
+      const controller = new AbortController();
+      signal = controller.signal;
+      sendAbortSignal = () => controller.abort();
     }
+    const closeEventListener = () => {
+      if (signal && !signal.aborted) {
+        rawRequest.aborted = true;
+        sendAbortSignal();
+      }
+    };
+    nodeResponse.once("error", closeEventListener);
+    nodeResponse.once("close", closeEventListener);
+    nodeResponse.once("finish", () => {
+      nodeResponse.removeListener("close", closeEventListener);
+    });
   }
   if (nodeRequest.method === "GET" || nodeRequest.method === "HEAD") {
     return new RequestCtor(fullUrl, {
       method: nodeRequest.method,
-      headers: nodeRequest.headers,
+      headers: normalizedHeaders,
       signal
     });
   }
@@ -2559,14 +2654,14 @@ function normalizeNodeRequest(nodeRequest, RequestCtor) {
     if (isRequestBody(maybeParsedBody)) {
       return new RequestCtor(fullUrl, {
         method: nodeRequest.method,
-        headers: nodeRequest.headers,
+        headers: normalizedHeaders,
         body: maybeParsedBody,
         signal
       });
     }
     const request = new RequestCtor(fullUrl, {
       method: nodeRequest.method,
-      headers: nodeRequest.headers,
+      headers: normalizedHeaders,
       signal
     });
     if (!request.headers.get("content-type")?.includes("json")) {
@@ -2589,11 +2684,12 @@ function normalizeNodeRequest(nodeRequest, RequestCtor) {
     if (!bunNodeCompatModeWarned) {
       bunNodeCompatModeWarned = true;
       console.warn(`You use Bun Node compatibility mode, which is not recommended!
-It will affect your performance. Please check our Bun integration recipe, and avoid using 'node:http' for your server implementation.`);
+It will affect your performance. Please check our Bun integration recipe, and avoid using 'http' for your server implementation.`);
     }
     return new RequestCtor(fullUrl, {
       method: nodeRequest.method,
-      headers: nodeRequest.headers,
+      headers: normalizedHeaders,
+      duplex: "half",
       body: new ReadableStream({
         start(controller) {
           rawRequest.on("data", (chunk) => {
@@ -2615,8 +2711,9 @@ It will affect your performance. Please check our Bun integration recipe, and av
   }
   return new RequestCtor(fullUrl, {
     method: nodeRequest.method,
-    headers: nodeRequest.headers,
+    headers: normalizedHeaders,
     body: rawRequest,
+    duplex: "half",
     signal
   });
 }
@@ -2641,15 +2738,30 @@ function endResponse(serverResponse) {
   serverResponse.end(null, null, null);
 }
 async function sendAsyncIterable(serverResponse, asyncIterable) {
+  let closed = false;
+  const closeEventListener = () => {
+    closed = true;
+  };
+  serverResponse.once("error", closeEventListener);
+  serverResponse.once("close", closeEventListener);
+  serverResponse.once("finish", () => {
+    serverResponse.removeListener("close", closeEventListener);
+  });
   for await (const chunk of asyncIterable) {
-    if (!serverResponse.write(chunk)) {
+    if (closed) {
       break;
+    }
+    if (!serverResponse.write(chunk)) {
+      if (closed) {
+        break;
+      }
+      await new Promise((resolve) => serverResponse.once("drain", resolve));
     }
   }
   endResponse(serverResponse);
 }
 function sendNodeResponse(fetchResponse, serverResponse, nodeRequest) {
-  if (serverResponse.closed || serverResponse.destroyed) {
+  if (serverResponse.closed || serverResponse.destroyed || serverResponse.writableEnded) {
     return;
   }
   if (!fetchResponse) {
@@ -2709,12 +2821,15 @@ function completeAssign(...args) {
   const [target, ...sources] = args.filter((arg) => arg != null && typeof arg === "object");
   sources.forEach((source) => {
     const descriptors = Object.getOwnPropertyNames(source).reduce((descriptors2, key) => {
-      descriptors2[key] = Object.getOwnPropertyDescriptor(source, key);
+      const descriptor = Object.getOwnPropertyDescriptor(source, key);
+      if (descriptor) {
+        descriptors2[key] = Object.getOwnPropertyDescriptor(source, key);
+      }
       return descriptors2;
     }, {});
     Object.getOwnPropertySymbols(source).forEach((sym) => {
       const descriptor = Object.getOwnPropertyDescriptor(source, sym);
-      if (descriptor.enumerable) {
+      if (descriptor?.enumerable) {
         descriptors[sym] = descriptor;
       }
     });
@@ -2764,24 +2879,27 @@ function isolateObject(originalCtx, waitUntilPromises) {
   const extraProps = {};
   const deletedProps = /* @__PURE__ */ new Set();
   return new Proxy(originalCtx, {
-    get(originalCtx2, prop, receiver) {
+    get(originalCtx2, prop) {
       if (waitUntilPromises != null && prop === "waitUntil") {
         return function waitUntil(promise) {
           waitUntilPromises.push(promise.catch((err) => console.error(err)));
         };
       }
-      if (prop in extraProps) {
-        return Reflect.get(extraProps, prop, receiver);
+      const extraPropVal = extraProps[prop];
+      if (extraPropVal != null) {
+        if (typeof extraPropVal === "function") {
+          return extraPropVal.bind(extraProps);
+        }
+        return extraPropVal;
       }
       if (deletedProps.has(prop)) {
         return void 0;
       }
-      if (prop in originalCtx2) {
-        return Reflect.get(originalCtx2, prop, receiver);
-      }
+      return originalCtx2[prop];
     },
-    set(_originalCtx, prop, value, receiver) {
-      return Reflect.set(extraProps, prop, value, receiver);
+    set(_originalCtx, prop, value) {
+      extraProps[prop] = value;
+      return true;
     },
     has(originalCtx2, prop) {
       if (waitUntilPromises != null && prop === "waitUntil") {
@@ -2793,7 +2911,7 @@ function isolateObject(originalCtx, waitUntilPromises) {
       if (prop in extraProps) {
         return true;
       }
-      return Reflect.has(originalCtx2, prop);
+      return prop in originalCtx2;
     },
     defineProperty(_originalCtx, prop, descriptor) {
       return Reflect.defineProperty(extraProps, prop, descriptor);
@@ -2826,37 +2944,86 @@ function isolateObject(originalCtx, waitUntilPromises) {
     }
   });
 }
+function createDeferredPromise() {
+  let resolveFn;
+  let rejectFn;
+  const promise = new Promise(function deferredPromiseExecutor(resolve, reject2) {
+    resolveFn = resolve;
+    rejectFn = reject2;
+  });
+  return {
+    promise,
+    get resolve() {
+      return resolveFn;
+    },
+    get reject() {
+      return rejectFn;
+    }
+  };
+}
+function handleAbortSignalAndPromiseResponse(response$, abortSignal) {
+  if (isPromise2(response$) && abortSignal) {
+    const deferred$ = createDeferredPromise();
+    abortSignal.addEventListener("abort", function abortSignalFetchErrorHandler() {
+      deferred$.reject(abortSignal.reason);
+    });
+    response$.then(function fetchSuccessHandler(res) {
+      deferred$.resolve(res);
+    }).catch(function fetchErrorHandler(err) {
+      deferred$.reject(err);
+    });
+    return deferred$.promise;
+  }
+  return response$;
+}
 
-// ../../../node_modules/.pnpm/@whatwg-node+server@0.9.22/node_modules/@whatwg-node/server/esm/uwebsockets.js
+// ../../../node_modules/.pnpm/@whatwg-node+server@0.9.46/node_modules/@whatwg-node/server/esm/uwebsockets.js
 function isUWSResponse(res) {
   return !!res.onData;
 }
-function getRequestFromUWSRequest({ req, res, fetchAPI }) {
+function getRequestFromUWSRequest({ req, res, fetchAPI, signal }) {
   let body;
   const method = req.getMethod();
   if (method !== "get" && method !== "head") {
-    body = new fetchAPI.ReadableStream({});
+    let controller;
+    body = new fetchAPI.ReadableStream({
+      start(c) {
+        controller = c;
+      }
+    });
     const readable = body.readable;
-    res.onAborted(() => {
-      readable.push(null);
-    });
-    let multipleChunks = false;
-    res.onData(function(ab, isLast) {
-      const chunk = Buffer.from(ab, 0, ab.byteLength);
-      if (!multipleChunks && isLast) {
-        readable.push(chunk);
-      } else {
-        readable.push(Buffer.from(chunk));
-      }
-      if (isLast) {
+    if (readable) {
+      signal.addEventListener("abort", () => {
         readable.push(null);
-      }
-      multipleChunks = true;
-    });
+      });
+      res.onData(function(ab, isLast) {
+        const chunk = Buffer.from(ab, 0, ab.byteLength);
+        readable.push(Buffer.from(chunk));
+        if (isLast) {
+          readable.push(null);
+        }
+      });
+    } else {
+      let closed = false;
+      signal.addEventListener("abort", () => {
+        if (!closed) {
+          closed = true;
+          controller.close();
+        }
+      });
+      res.onData(function(ab, isLast) {
+        const chunk = Buffer.from(ab, 0, ab.byteLength);
+        controller.enqueue(Buffer.from(chunk));
+        if (isLast) {
+          closed = true;
+          controller.close();
+        }
+      });
+    }
   }
   const headers = new fetchAPI.Headers();
   req.forEach((key, value) => {
-    headers.set(key, value);
+    headers.append(key, value);
   });
   let url = `http://localhost${req.getUrl()}`;
   const query = req.getQuery();
@@ -2867,16 +3034,15 @@ function getRequestFromUWSRequest({ req, res, fetchAPI }) {
     method,
     headers,
     body,
-    signal: new ServerAdapterRequestAbortSignal()
+    signal,
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore - not in the TS types yet
+    duplex: "half"
   });
 }
-async function forwardResponseBodyToUWSResponse(uwsResponse, fetchResponse) {
-  let resAborted = false;
-  uwsResponse.onAborted(function() {
-    resAborted = true;
-  });
+async function forwardResponseBodyToUWSResponse(uwsResponse, fetchResponse, signal) {
   for await (const chunk of fetchResponse.body) {
-    if (resAborted) {
+    if (signal.aborted) {
       return;
     }
     uwsResponse.cork(() => {
@@ -2887,13 +3053,16 @@ async function forwardResponseBodyToUWSResponse(uwsResponse, fetchResponse) {
     uwsResponse.end();
   });
 }
-function sendResponseToUwsOpts(uwsResponse, fetchResponse) {
+function sendResponseToUwsOpts(uwsResponse, fetchResponse, signal) {
   if (!fetchResponse) {
     uwsResponse.writeStatus("404 Not Found");
     uwsResponse.end();
     return;
   }
   const bufferOfRes = fetchResponse._buffer;
+  if (signal.aborted) {
+    return;
+  }
   uwsResponse.cork(() => {
     uwsResponse.writeStatus(`${fetchResponse.status} ${fetchResponse.statusText}`);
     for (const [key, value] of fetchResponse.headers) {
@@ -2921,10 +3090,10 @@ function sendResponseToUwsOpts(uwsResponse, fetchResponse) {
     uwsResponse.end();
     return;
   }
-  return forwardResponseBodyToUWSResponse(uwsResponse, fetchResponse);
+  return forwardResponseBodyToUWSResponse(uwsResponse, fetchResponse, signal);
 }
 
-// ../../../node_modules/.pnpm/@whatwg-node+server@0.9.22/node_modules/@whatwg-node/server/esm/createServerAdapter.js
+// ../../../node_modules/.pnpm/@whatwg-node+server@0.9.46/node_modules/@whatwg-node/server/esm/createServerAdapter.js
 async function handleWaitUntils(waitUntilPromises) {
   await Promise.allSettled(waitUntilPromises);
 }
@@ -2968,6 +3137,9 @@ function createServerAdapter(serverAdapterBaseObject, options) {
     });
     const onRequestHooksIteration$ = iterateAsyncVoid(onRequestHooks, (onRequestHook, stopEarly) => onRequestHook({
       request,
+      setRequest(newRequest) {
+        request = newRequest;
+      },
       serverContext,
       fetchAPI,
       url,
@@ -2983,13 +3155,17 @@ function createServerAdapter(serverAdapterBaseObject, options) {
       }
     }));
     function handleResponse(response2) {
-      if (onRequestHooks.length === 0) {
+      if (onResponseHooks.length === 0) {
         return response2;
       }
       const onResponseHookPayload = {
         request,
         response: response2,
-        serverContext
+        serverContext,
+        setResponse(newResponse) {
+          response2 = newResponse;
+        },
+        fetchAPI
       };
       const onResponseHooksIteration$ = iterateAsyncVoid(onResponseHooks, (onResponseHook) => onResponseHook(onResponseHookPayload));
       if (isPromise2(onResponseHooksIteration$)) {
@@ -3017,28 +3193,33 @@ function createServerAdapter(serverAdapterBaseObject, options) {
     const request = normalizeNodeRequest(nodeRequest, fetchAPI.Request);
     return handleRequest(request, serverContext);
   }
-  function requestListener(nodeRequest, serverResponse, ...ctx) {
+  function handleNodeRequestAndResponse(nodeRequest, nodeResponseOrContainer, ...ctx) {
+    const nodeResponse = nodeResponseOrContainer.raw || nodeResponseOrContainer;
+    nodeRequestResponseMap.set(nodeRequest, nodeResponse);
+    return handleNodeRequest(nodeRequest, ...ctx);
+  }
+  function requestListener(nodeRequest, nodeResponse, ...ctx) {
     const waitUntilPromises = [];
     const defaultServerContext = {
       req: nodeRequest,
-      res: serverResponse,
+      res: nodeResponse,
       waitUntil(cb) {
         waitUntilPromises.push(cb.catch((err) => console.error(err)));
       }
     };
     let response$;
     try {
-      response$ = handleNodeRequest(nodeRequest, defaultServerContext, ...ctx);
+      response$ = handleNodeRequestAndResponse(nodeRequest, nodeResponse, defaultServerContext, ...ctx);
     } catch (err) {
       response$ = handleErrorFromRequestHandler(err, fetchAPI.Response);
     }
     if (isPromise2(response$)) {
-      return response$.catch((e) => handleErrorFromRequestHandler(e, fetchAPI.Response)).then((response) => sendNodeResponse(response, serverResponse, nodeRequest)).catch((err) => {
+      return response$.catch((e) => handleErrorFromRequestHandler(e, fetchAPI.Response)).then((response) => sendNodeResponse(response, nodeResponse, nodeRequest)).catch((err) => {
         console.error(`Unexpected error while handling request: ${err.message || err}`);
       });
     }
     try {
-      return sendNodeResponse(response$, serverResponse, nodeRequest);
+      return sendNodeResponse(response$, nodeResponse, nodeRequest);
     } catch (err) {
       console.error(`Unexpected error while handling request: ${err.message || err}`);
     }
@@ -3054,15 +3235,25 @@ function createServerAdapter(serverAdapterBaseObject, options) {
     };
     const filteredCtxParts = ctx.filter((partCtx) => partCtx != null);
     const serverContext = filteredCtxParts.length > 0 ? completeAssign(defaultServerContext, ...ctx) : defaultServerContext;
+    const signal = new ServerAdapterRequestAbortSignal();
+    const originalResEnd = res.end.bind(res);
+    let resEnded = false;
+    res.end = function(data) {
+      resEnded = true;
+      return originalResEnd(data);
+    };
+    const originalOnAborted = res.onAborted.bind(res);
+    originalOnAborted(function() {
+      signal.sendAbort();
+    });
+    res.onAborted = function(cb) {
+      signal.addEventListener("abort", cb);
+    };
     const request = getRequestFromUWSRequest({
       req,
       res,
-      fetchAPI
-    });
-    let resAborted = false;
-    res.onAborted(() => {
-      resAborted = true;
-      request.signal.sendAbort();
+      fetchAPI,
+      signal
     });
     let response$;
     try {
@@ -3072,17 +3263,21 @@ function createServerAdapter(serverAdapterBaseObject, options) {
     }
     if (isPromise2(response$)) {
       return response$.catch((e) => handleErrorFromRequestHandler(e, fetchAPI.Response)).then((response) => {
-        if (!resAborted) {
-          return sendResponseToUwsOpts(res, response);
+        if (!signal.aborted && !resEnded) {
+          return sendResponseToUwsOpts(res, response, signal);
         }
       }).catch((err) => {
-        console.error(`Unexpected error while handling request: ${err.message || err}`);
+        console.error(`Unexpected error while handling request: 
+${err.stack || err.message || err}`);
       });
     }
     try {
-      return sendResponseToUwsOpts(res, response$);
+      if (!signal.aborted && !resEnded) {
+        return sendResponseToUwsOpts(res, response$, signal);
+      }
     } catch (err) {
-      console.error(`Unexpected error while handling request: ${err.message || err}`);
+      console.error(`Unexpected error while handling request: 
+${err.stack || err.message || err}`);
     }
   }
   function handleEvent(event, ...ctx) {
@@ -3097,7 +3292,7 @@ function createServerAdapter(serverAdapterBaseObject, options) {
   function handleRequestWithWaitUntil(request, ...ctx) {
     const filteredCtxParts = ctx.filter((partCtx) => partCtx != null);
     let waitUntilPromises;
-    const serverContext = filteredCtxParts.length > 1 ? completeAssign(...filteredCtxParts) : isolateObject(filteredCtxParts[0], filteredCtxParts[0] == null || filteredCtxParts[0].waitUntil == null ? waitUntilPromises = [] : void 0);
+    const serverContext = filteredCtxParts.length > 1 ? completeAssign({}, ...filteredCtxParts) : isolateObject(filteredCtxParts[0], filteredCtxParts[0] == null || filteredCtxParts[0].waitUntil == null ? waitUntilPromises = [] : void 0);
     const response$ = handleRequest(request, serverContext);
     if (waitUntilPromises?.length) {
       return handleWaitUntils(waitUntilPromises).then(() => response$);
@@ -3108,11 +3303,15 @@ function createServerAdapter(serverAdapterBaseObject, options) {
     if (typeof input === "string" || "href" in input) {
       const [initOrCtx, ...restOfCtx] = maybeCtx;
       if (isRequestInit(initOrCtx)) {
-        return handleRequestWithWaitUntil(new fetchAPI.Request(input, initOrCtx), ...restOfCtx);
+        const request2 = new fetchAPI.Request(input, initOrCtx);
+        const res$2 = handleRequestWithWaitUntil(request2, ...restOfCtx);
+        return handleAbortSignalAndPromiseResponse(res$2, initOrCtx?.signal);
       }
-      return handleRequestWithWaitUntil(new fetchAPI.Request(input), ...maybeCtx);
+      const request = new fetchAPI.Request(input);
+      return handleRequestWithWaitUntil(request, ...maybeCtx);
     }
-    return handleRequestWithWaitUntil(input, ...maybeCtx);
+    const res$ = handleRequestWithWaitUntil(input, ...maybeCtx);
+    return handleAbortSignalAndPromiseResponse(res$, input._signal);
   };
   const genericRequestHandler = (input, ...maybeCtx) => {
     const [initOrCtxOrRes, ...restOfCtx] = maybeCtx;
@@ -3137,9 +3336,10 @@ function createServerAdapter(serverAdapterBaseObject, options) {
     return fetchFn(input, ...maybeCtx);
   };
   const adapterObj = {
-    handleRequest,
+    handleRequest: handleRequestWithWaitUntil,
     fetch: fetchFn,
     handleNodeRequest,
+    handleNodeRequestAndResponse,
     requestListener,
     handleEvent,
     handleUWS,
@@ -3188,7 +3388,7 @@ function createServerAdapter(serverAdapterBaseObject, options) {
   return serverAdapter;
 }
 
-// ../../../node_modules/.pnpm/@whatwg-node+server@0.9.22/node_modules/@whatwg-node/server/esm/plugins/useCors.js
+// ../../../node_modules/.pnpm/@whatwg-node+server@0.9.46/node_modules/@whatwg-node/server/esm/plugins/useCors.js
 function getCORSHeadersByRequestAndOptions(request, corsOptions) {
   const currentOrigin = request.headers.get("origin");
   if (corsOptions === false || currentOrigin == null) {
@@ -3226,8 +3426,9 @@ function getCORSHeadersByRequestAndOptions(request, corsOptions) {
       headers["Access-Control-Allow-Headers"] = requestHeaders;
       if (headers["Vary"]) {
         headers["Vary"] += ", Access-Control-Request-Headers";
+      } else {
+        headers["Vary"] = "Access-Control-Request-Headers";
       }
-      headers["Vary"] = "Access-Control-Request-Headers";
     }
   }
   if (corsOptions.credentials != null) {
@@ -3289,7 +3490,7 @@ function useCORS(options) {
   };
 }
 
-// ../../../node_modules/.pnpm/@whatwg-node+server@0.9.22/node_modules/@whatwg-node/server/esm/plugins/useErrorHandling.js
+// ../../../node_modules/.pnpm/@whatwg-node+server@0.9.46/node_modules/@whatwg-node/server/esm/plugins/useErrorHandling.js
 function createDefaultErrorHandler(ResponseCtor = Response) {
   return function defaultErrorHandler(e) {
     if (e.details || e.status || e.headers || e.name === "HTTPError") {
@@ -3299,11 +3500,14 @@ function createDefaultErrorHandler(ResponseCtor = Response) {
       });
     }
     console.error(e);
-    if (ResponseCtor.error) {
-      return ResponseCtor.error();
-    }
-    return new ResponseCtor(null, { status: 500 });
+    return createDefaultErrorResponse(ResponseCtor);
   };
+}
+function createDefaultErrorResponse(ResponseCtor) {
+  if (ResponseCtor.error) {
+    return ResponseCtor.error();
+  }
+  return new ResponseCtor(null, { status: 500 });
 }
 function useErrorHandling(onError) {
   return {
@@ -3313,18 +3517,18 @@ function useErrorHandling(onError) {
         try {
           const response$ = requestHandler(request, serverContext);
           if (isPromise2(response$)) {
-            return response$.catch((e) => errorHandler(e, request, serverContext));
+            return response$.catch((e) => errorHandler(e, request, serverContext) || createDefaultErrorResponse(fetchAPI.Response));
           }
           return response$;
         } catch (e) {
-          return errorHandler(e, request, serverContext);
+          return errorHandler(e, request, serverContext) || createDefaultErrorResponse(fetchAPI.Response);
         }
       });
     }
   };
 }
 
-// ../../../node_modules/.pnpm/graphql-yoga@5.1.1_graphql@16.8.1/node_modules/graphql-yoga/esm/plugins/request-parser/utils.js
+// ../../../node_modules/.pnpm/graphql-yoga@5.7.0_graphql@16.9.0/node_modules/graphql-yoga/esm/plugins/request-parser/utils.js
 function handleURLSearchParams(searchParams) {
   const operationName = searchParams.get("operationName") || void 0;
   const query = searchParams.get("query") || void 0;
@@ -3347,7 +3551,7 @@ function isContentTypeMatch(request, expectedContentType) {
   return contentType === expectedContentType || !!contentType?.startsWith(`${expectedContentType};`);
 }
 
-// ../../../node_modules/.pnpm/graphql-yoga@5.1.1_graphql@16.8.1/node_modules/graphql-yoga/esm/plugins/request-parser/get.js
+// ../../../node_modules/.pnpm/graphql-yoga@5.7.0_graphql@16.9.0/node_modules/graphql-yoga/esm/plugins/request-parser/get.js
 function isGETRequest(request) {
   return request.method === "GET";
 }
@@ -3357,7 +3561,7 @@ function parseGETRequest(request) {
   return handleURLSearchParams(searchParams);
 }
 
-// ../../../node_modules/.pnpm/graphql-yoga@5.1.1_graphql@16.8.1/node_modules/graphql-yoga/esm/plugins/request-parser/post-form-url-encoded.js
+// ../../../node_modules/.pnpm/graphql-yoga@5.7.0_graphql@16.9.0/node_modules/graphql-yoga/esm/plugins/request-parser/post-form-url-encoded.js
 function isPOSTFormUrlEncodedRequest(request) {
   return request.method === "POST" && isContentTypeMatch(request, "application/x-www-form-urlencoded");
 }
@@ -3366,7 +3570,7 @@ async function parsePOSTFormUrlEncodedRequest(request) {
   return parseURLSearchParams(requestBody);
 }
 
-// ../../../node_modules/.pnpm/graphql-yoga@5.1.1_graphql@16.8.1/node_modules/graphql-yoga/esm/plugins/request-parser/post-graphql-string.js
+// ../../../node_modules/.pnpm/graphql-yoga@5.7.0_graphql@16.9.0/node_modules/graphql-yoga/esm/plugins/request-parser/post-graphql-string.js
 function isPOSTGraphQLStringRequest(request) {
   return request.method === "POST" && isContentTypeMatch(request, "application/graphql");
 }
@@ -3377,8 +3581,8 @@ async function parsePOSTGraphQLStringRequest(request) {
   };
 }
 
-// ../../../node_modules/.pnpm/graphql-yoga@5.1.1_graphql@16.8.1/node_modules/graphql-yoga/esm/plugins/request-parser/post-json.js
-import { createGraphQLError as createGraphQLError4 } from "https://esm.sh/@graphql-tools/utils@10.0.12";
+// ../../../node_modules/.pnpm/graphql-yoga@5.7.0_graphql@16.9.0/node_modules/graphql-yoga/esm/plugins/request-parser/post-json.js
+import { createGraphQLError as createGraphQLError4 } from "https://esm.sh/@graphql-tools/utils@10.5.4";
 function isPOSTJsonRequest(request) {
   return request.method === "POST" && (isContentTypeMatch(request, "application/json") || isContentTypeMatch(request, "application/graphql+json"));
 }
@@ -3425,9 +3629,9 @@ async function parsePOSTJsonRequest(request) {
   return requestBody;
 }
 
-// ../../../node_modules/.pnpm/graphql-yoga@5.1.1_graphql@16.8.1/node_modules/graphql-yoga/esm/plugins/request-parser/post-multipart.js
+// ../../../node_modules/.pnpm/graphql-yoga@5.7.0_graphql@16.9.0/node_modules/graphql-yoga/esm/plugins/request-parser/post-multipart.js
 import { dset } from "https://esm.sh/dset@3.1.3";
-import { createGraphQLError as createGraphQLError5 } from "https://esm.sh/@graphql-tools/utils@10.0.12";
+import { createGraphQLError as createGraphQLError5 } from "https://esm.sh/@graphql-tools/utils@10.5.4";
 function isPOSTMultipartRequest(request) {
   return request.method === "POST" && isContentTypeMatch(request, "multipart/form-data");
 }
@@ -3482,10 +3686,10 @@ async function parsePOSTMultipartRequest(request) {
   return operations;
 }
 
-// ../../../node_modules/.pnpm/graphql-yoga@5.1.1_graphql@16.8.1/node_modules/graphql-yoga/esm/plugins/request-validation/use-check-graphql-query-params.js
-import { createGraphQLError as createGraphQLError6 } from "https://esm.sh/@graphql-tools/utils@10.0.12";
+// ../../../node_modules/.pnpm/graphql-yoga@5.7.0_graphql@16.9.0/node_modules/graphql-yoga/esm/plugins/request-validation/use-check-graphql-query-params.js
+import { createGraphQLError as createGraphQLError6 } from "https://esm.sh/@graphql-tools/utils@10.5.4";
 var expectedParameters = /* @__PURE__ */ new Set(["query", "variables", "operationName", "extensions"]);
-function assertInvalidParams(params) {
+function assertInvalidParams(params, extraParamNames) {
   if (params == null || typeof params !== "object") {
     throw createGraphQLError6('Invalid "params" in the request body', {
       extensions: {
@@ -3501,6 +3705,9 @@ function assertInvalidParams(params) {
       continue;
     }
     if (!expectedParameters.has(paramKey)) {
+      if (extraParamNames?.includes(paramKey)) {
+        continue;
+      }
       throw createGraphQLError6(`Unexpected parameter "${paramKey}" in the request body.`, {
         extensions: {
           http: {
@@ -3511,7 +3718,7 @@ function assertInvalidParams(params) {
     }
   }
 }
-function checkGraphQLQueryParams(params) {
+function checkGraphQLQueryParams(params, extraParamNames) {
   if (!isObject(params)) {
     throw createGraphQLError6(`Expected params to be an object but given ${extendedTypeof(params)}.`, {
       extensions: {
@@ -3524,7 +3731,7 @@ function checkGraphQLQueryParams(params) {
       }
     });
   }
-  assertInvalidParams(params);
+  assertInvalidParams(params, extraParamNames);
   if (params.query == null) {
     throw createGraphQLError6("Must provide query string.", {
       extensions: {
@@ -3579,10 +3786,10 @@ function checkGraphQLQueryParams(params) {
   }
   return params;
 }
-function useCheckGraphQLQueryParams() {
+function useCheckGraphQLQueryParams(extraParamNames) {
   return {
     onParams({ params }) {
-      checkGraphQLQueryParams(params);
+      checkGraphQLQueryParams(params, extraParamNames);
     }
   };
 }
@@ -3599,8 +3806,8 @@ function isObject(val) {
   return extendedTypeof(val) === "object";
 }
 
-// ../../../node_modules/.pnpm/graphql-yoga@5.1.1_graphql@16.8.1/node_modules/graphql-yoga/esm/plugins/request-validation/use-check-method-for-graphql.js
-import { createGraphQLError as createGraphQLError7 } from "https://esm.sh/@graphql-tools/utils@10.0.12";
+// ../../../node_modules/.pnpm/graphql-yoga@5.7.0_graphql@16.9.0/node_modules/graphql-yoga/esm/plugins/request-validation/use-check-method-for-graphql.js
+import { createGraphQLError as createGraphQLError7 } from "https://esm.sh/@graphql-tools/utils@10.5.4";
 function isValidMethodForGraphQL(method) {
   return method === "GET" || method === "POST";
 }
@@ -3623,7 +3830,7 @@ function useCheckMethodForGraphQL() {
   };
 }
 
-// ../../../node_modules/.pnpm/graphql-yoga@5.1.1_graphql@16.8.1/node_modules/graphql-yoga/esm/plugins/request-validation/use-http-validation-error.js
+// ../../../node_modules/.pnpm/graphql-yoga@5.7.0_graphql@16.9.0/node_modules/graphql-yoga/esm/plugins/request-validation/use-http-validation-error.js
 function useHTTPValidationError() {
   return {
     onValidate() {
@@ -3642,7 +3849,7 @@ function useHTTPValidationError() {
   };
 }
 
-// ../../../node_modules/.pnpm/graphql-yoga@5.1.1_graphql@16.8.1/node_modules/graphql-yoga/esm/plugins/request-validation/use-limit-batching.js
+// ../../../node_modules/.pnpm/graphql-yoga@5.7.0_graphql@16.9.0/node_modules/graphql-yoga/esm/plugins/request-validation/use-limit-batching.js
 function useLimitBatching(limit) {
   return {
     onRequestParse() {
@@ -3674,9 +3881,9 @@ function useLimitBatching(limit) {
   };
 }
 
-// ../../../node_modules/.pnpm/graphql-yoga@5.1.1_graphql@16.8.1/node_modules/graphql-yoga/esm/plugins/request-validation/use-prevent-mutation-via-get.js
-import { getOperationAST as getOperationAST2, GraphQLError as GraphQLError3 } from "https://esm.sh/graphql@16.8.1";
-import { createGraphQLError as createGraphQLError8 } from "https://esm.sh/@graphql-tools/utils@10.0.12";
+// ../../../node_modules/.pnpm/graphql-yoga@5.7.0_graphql@16.9.0/node_modules/graphql-yoga/esm/plugins/request-validation/use-prevent-mutation-via-get.js
+import { getOperationAST as getOperationAST2, GraphQLError as GraphQLError3 } from "https://esm.sh/graphql@16.8.2";
+import { createGraphQLError as createGraphQLError8 } from "https://esm.sh/@graphql-tools/utils@10.5.4";
 function assertMutationViaGet(method, document, operationName) {
   const operation = document ? getOperationAST2(document, operationName) ?? void 0 : void 0;
   if (!operation) {
@@ -3728,7 +3935,7 @@ function usePreventMutationViaGET() {
   };
 }
 
-// ../../../node_modules/.pnpm/graphql-yoga@5.1.1_graphql@16.8.1/node_modules/graphql-yoga/esm/plugins/use-health-check.js
+// ../../../node_modules/.pnpm/graphql-yoga@5.7.0_graphql@16.9.0/node_modules/graphql-yoga/esm/plugins/use-health-check.js
 function useHealthCheck({ id = Date.now().toString(), logger = console, endpoint = "/health" } = {}) {
   return {
     onRequest({ endResponse: endResponse2, fetchAPI, request }) {
@@ -3746,7 +3953,7 @@ function useHealthCheck({ id = Date.now().toString(), logger = console, endpoint
   };
 }
 
-// ../../../node_modules/.pnpm/lru-cache@10.1.0/node_modules/lru-cache/dist/esm/index.js
+// ../../../node_modules/.pnpm/lru-cache@10.4.3/node_modules/lru-cache/dist/esm/index.js
 var perf = typeof performance === "object" && performance && typeof performance.now === "function" ? performance : Date;
 var warned = /* @__PURE__ */ new Set();
 var PROCESS = typeof process === "object" && !!process ? process : {};
@@ -3828,14 +4035,13 @@ var Stack = class _Stack {
   }
 };
 var LRUCache = class _LRUCache {
-  // properties coming in from the options of these, only max and maxSize
-  // really *need* to be protected. The rest can be modified, as they just
-  // set defaults for various methods.
+  // options that cannot be changed without disaster
   #max;
   #maxSize;
   #dispose;
   #disposeAfter;
   #fetchMethod;
+  #memoMethod;
   /**
    * {@link LRUCache.OptionsBase.ttl}
    */
@@ -3981,6 +4187,9 @@ var LRUCache = class _LRUCache {
   get fetchMethod() {
     return this.#fetchMethod;
   }
+  get memoMethod() {
+    return this.#memoMethod;
+  }
   /**
    * {@link LRUCache.OptionsBase.dispose} (read-only)
    */
@@ -3994,7 +4203,7 @@ var LRUCache = class _LRUCache {
     return this.#disposeAfter;
   }
   constructor(options) {
-    const { max = 0, ttl, ttlResolution = 1, ttlAutopurge, updateAgeOnGet, updateAgeOnHas, allowStale, dispose, disposeAfter, noDisposeOnSet, noUpdateTTL, maxSize = 0, maxEntrySize = 0, sizeCalculation, fetchMethod, noDeleteOnFetchRejection, noDeleteOnStaleGet, allowStaleOnFetchRejection, allowStaleOnFetchAbort, ignoreFetchAbort } = options;
+    const { max = 0, ttl, ttlResolution = 1, ttlAutopurge, updateAgeOnGet, updateAgeOnHas, allowStale, dispose, disposeAfter, noDisposeOnSet, noUpdateTTL, maxSize = 0, maxEntrySize = 0, sizeCalculation, fetchMethod, memoMethod, noDeleteOnFetchRejection, noDeleteOnStaleGet, allowStaleOnFetchRejection, allowStaleOnFetchAbort, ignoreFetchAbort } = options;
     if (max !== 0 && !isPosInt(max)) {
       throw new TypeError("max option must be a nonnegative integer");
     }
@@ -4014,6 +4223,10 @@ var LRUCache = class _LRUCache {
         throw new TypeError("sizeCalculation set to non-function");
       }
     }
+    if (memoMethod !== void 0 && typeof memoMethod !== "function") {
+      throw new TypeError("memoMethod must be a function if defined");
+    }
+    this.#memoMethod = memoMethod;
     if (fetchMethod !== void 0 && typeof fetchMethod !== "function") {
       throw new TypeError("fetchMethod must be a function if specified");
     }
@@ -4084,7 +4297,8 @@ var LRUCache = class _LRUCache {
     }
   }
   /**
-   * Return the remaining TTL time for a given entry key
+   * Return the number of ms left in the item's TTL. If item is not in cache,
+   * returns `0`. Returns `Infinity` if item is in cache without a defined TTL.
    */
   getRemainingTTL(key) {
     return this.#keyMap.has(key) ? Infinity : 0;
@@ -4100,7 +4314,7 @@ var LRUCache = class _LRUCache {
       if (ttl !== 0 && this.ttlAutopurge) {
         const t = setTimeout(() => {
           if (this.#isStale(index)) {
-            this.delete(this.#keyList[index]);
+            this.#delete(this.#keyList[index], "expire");
           }
         }, ttl + 1);
         if (t.unref) {
@@ -4337,8 +4551,14 @@ var LRUCache = class _LRUCache {
     return this.entries();
   }
   /**
+   * A String value that is used in the creation of the default string
+   * description of an object. Called by the built-in method
+   * `Object.prototype.toString`.
+   */
+  [Symbol.toStringTag] = "LRUCache";
+  /**
    * Find a value for which the supplied fn method returns a truthy value,
-   * similar to Array.find().  fn is called as fn(value, key, cache).
+   * similar to `Array.find()`. fn is called as `fn(value, key, cache)`.
    */
   find(fn, getOptions = {}) {
     for (const i of this.#indexes()) {
@@ -4352,10 +4572,15 @@ var LRUCache = class _LRUCache {
     }
   }
   /**
-   * Call the supplied function on each item in the cache, in order from
-   * most recently used to least recently used.  fn is called as
-   * fn(value, key, cache).  Does not update age or recenty of use.
-   * Does not iterate over stale values.
+   * Call the supplied function on each item in the cache, in order from most
+   * recently used to least recently used.
+   *
+   * `fn` is called as `fn(value, key, cache)`.
+   *
+   * If `thisp` is provided, function will be called in the `this`-context of
+   * the provided object, or the cache if no `thisp` object is provided.
+   *
+   * Does not update age or recenty of use, or iterate over stale values.
    */
   forEach(fn, thisp = this) {
     for (const i of this.#indexes()) {
@@ -4387,7 +4612,7 @@ var LRUCache = class _LRUCache {
     let deleted = false;
     for (const i of this.#rindexes({ allowStale: true })) {
       if (this.#isStale(i)) {
-        this.delete(this.#keyList[i]);
+        this.#delete(this.#keyList[i], "expire");
         deleted = true;
       }
     }
@@ -4395,9 +4620,15 @@ var LRUCache = class _LRUCache {
   }
   /**
    * Get the extended info about a given entry, to get its value, size, and
-   * TTL info simultaneously. Like {@link LRUCache#dump}, but just for a
-   * single key. Always returns stale values, if their info is found in the
-   * cache, so be sure to check for expired TTLs if relevant.
+   * TTL info simultaneously. Returns `undefined` if the key is not present.
+   *
+   * Unlike {@link LRUCache#dump}, which is designed to be portable and survive
+   * serialization, the `start` value is always the current timestamp, and the
+   * `ttl` is a calculated remaining time to live (negative if expired).
+   *
+   * Always returns stale values, if their info is found in the cache, so be
+   * sure to check for expirations (ie, a negative {@link LRUCache.Entry#ttl})
+   * if relevant.
    */
   info(key) {
     const i = this.#keyMap.get(key);
@@ -4424,7 +4655,16 @@ var LRUCache = class _LRUCache {
   }
   /**
    * Return an array of [key, {@link LRUCache.Entry}] tuples which can be
-   * passed to cache.load()
+   * passed to {@link LRLUCache#load}.
+   *
+   * The `start` fields are calculated relative to a portable `Date.now()`
+   * timestamp, even if `performance.now()` is available.
+   *
+   * Stale entries are always included in the `dump`, even if
+   * {@link LRUCache.OptionsBase.allowStale} is false.
+   *
+   * Note: this returns an actual array, not a generator, so it can be more
+   * easily passed around.
    */
   dump() {
     const arr = [];
@@ -4449,8 +4689,12 @@ var LRUCache = class _LRUCache {
   }
   /**
    * Reset the cache and load in the items in entries in the order listed.
-   * Note that the shape of the resulting cache may be different if the
-   * same options are not used in both caches.
+   *
+   * The shape of the resulting cache may be different if the same options are
+   * not used in both caches.
+   *
+   * The `start` fields are assumed to be calculated relative to a portable
+   * `Date.now()` timestamp, even if `performance.now()` is available.
    */
   load(arr) {
     this.clear();
@@ -4467,6 +4711,30 @@ var LRUCache = class _LRUCache {
    *
    * Note: if `undefined` is specified as a value, this is an alias for
    * {@link LRUCache#delete}
+   *
+   * Fields on the {@link LRUCache.SetOptions} options param will override
+   * their corresponding values in the constructor options for the scope
+   * of this single `set()` operation.
+   *
+   * If `start` is provided, then that will set the effective start
+   * time for the TTL calculation. Note that this must be a previous
+   * value of `performance.now()` if supported, or a previous value of
+   * `Date.now()` if not.
+   *
+   * Options object may also include `size`, which will prevent
+   * calling the `sizeCalculation` function and just use the specified
+   * number if it is a positive integer, and `noDisposeOnSet` which
+   * will prevent calling a `dispose` function in the case of
+   * overwrites.
+   *
+   * If the `size` (or return value of `sizeCalculation`) for a given
+   * entry is greater than `maxEntrySize`, then the item will not be
+   * added to the cache.
+   *
+   * Will update the recency of the entry.
+   *
+   * If the value is `undefined`, then this is an alias for
+   * `cache.delete(key)`. `undefined` is never stored in the cache.
    */
   set(k, v, setOptions = {}) {
     if (v === void 0) {
@@ -4481,7 +4749,7 @@ var LRUCache = class _LRUCache {
         status.set = "miss";
         status.maxEntrySizeExceeded = true;
       }
-      this.delete(k);
+      this.#delete(k, "set");
       return this;
     }
     let index = this.#size === 0 ? void 0 : this.#keyMap.get(k);
@@ -4615,6 +4883,14 @@ var LRUCache = class _LRUCache {
    * Will return false if the item is stale, even though it is technically
    * in the cache.
    *
+   * Check if a key is in the cache, without updating the recency of
+   * use. Age is updated if {@link LRUCache.OptionsBase.updateAgeOnHas} is set
+   * to `true` in either the options or the constructor.
+   *
+   * Will return `false` if the item is stale, even though it is technically in
+   * the cache. The difference can be determined (if it matters) by using a
+   * `status` argument, and inspecting the `has` field.
+   *
    * Will not update item age unless
    * {@link LRUCache.OptionsBase.updateAgeOnHas} is set.
    */
@@ -4697,7 +4973,7 @@ var LRUCache = class _LRUCache {
           if (bf2.__staleWhileFetching) {
             this.#valList[index] = bf2.__staleWhileFetching;
           } else {
-            this.delete(k);
+            this.#delete(k, "fetch");
           }
         } else {
           if (options.status)
@@ -4723,7 +4999,7 @@ var LRUCache = class _LRUCache {
       if (this.#valList[index] === p) {
         const del = !noDelete || bf2.__staleWhileFetching === void 0;
         if (del) {
-          this.delete(k);
+          this.#delete(k, "fetch");
         } else if (!allowStaleAborted) {
           this.#valList[index] = bf2.__staleWhileFetching;
         }
@@ -4861,6 +5137,28 @@ var LRUCache = class _LRUCache {
       return staleVal ? p.__staleWhileFetching : p.__returned = p;
     }
   }
+  async forceFetch(k, fetchOptions = {}) {
+    const v = await this.fetch(k, fetchOptions);
+    if (v === void 0)
+      throw new Error("fetch() returned undefined");
+    return v;
+  }
+  memo(k, memoOptions = {}) {
+    const memoMethod = this.#memoMethod;
+    if (!memoMethod) {
+      throw new Error("no memoMethod provided to constructor");
+    }
+    const { context, forceRefresh, ...options } = memoOptions;
+    const v = this.get(k, options);
+    if (!forceRefresh && v !== void 0)
+      return v;
+    const vv = memoMethod(k, v, {
+      options,
+      context
+    });
+    this.set(k, vv, options);
+    return vv;
+  }
   /**
    * Return a value from the cache. Will update the recency of the cache
    * entry found.
@@ -4880,7 +5178,7 @@ var LRUCache = class _LRUCache {
           status.get = "stale";
         if (!fetching) {
           if (!noDeleteOnStaleGet) {
-            this.delete(k);
+            this.#delete(k, "expire");
           }
           if (status && allowStale)
             status.returnedStale = true;
@@ -4924,16 +5222,20 @@ var LRUCache = class _LRUCache {
   }
   /**
    * Deletes a key out of the cache.
+   *
    * Returns true if the key was deleted, false otherwise.
    */
   delete(k) {
+    return this.#delete(k, "delete");
+  }
+  #delete(k, reason) {
     let deleted = false;
     if (this.#size !== 0) {
       const index = this.#keyMap.get(k);
       if (index !== void 0) {
         deleted = true;
         if (this.#size === 1) {
-          this.clear();
+          this.#clear(reason);
         } else {
           this.#removeItemSize(index);
           const v = this.#valList[index];
@@ -4941,10 +5243,10 @@ var LRUCache = class _LRUCache {
             v.__abortController.abort(new Error("deleted"));
           } else if (this.#hasDispose || this.#hasDisposeAfter) {
             if (this.#hasDispose) {
-              this.#dispose?.(v, k, "delete");
+              this.#dispose?.(v, k, reason);
             }
             if (this.#hasDisposeAfter) {
-              this.#disposed?.push([v, k, "delete"]);
+              this.#disposed?.push([v, k, reason]);
             }
           }
           this.#keyMap.delete(k);
@@ -4978,6 +5280,9 @@ var LRUCache = class _LRUCache {
    * Clear the cache entirely, throwing away all values.
    */
   clear() {
+    return this.#clear("delete");
+  }
+  #clear(reason) {
     for (const index of this.#rindexes({ allowStale: true })) {
       const v = this.#valList[index];
       if (this.#isBackgroundFetch(v)) {
@@ -4985,10 +5290,10 @@ var LRUCache = class _LRUCache {
       } else {
         const k = this.#keyList[index];
         if (this.#hasDispose) {
-          this.#dispose?.(v, k, "delete");
+          this.#dispose?.(v, k, reason);
         }
         if (this.#hasDisposeAfter) {
-          this.#disposed?.push([v, k, "delete"]);
+          this.#disposed?.push([v, k, reason]);
         }
       }
     }
@@ -5017,14 +5322,14 @@ var LRUCache = class _LRUCache {
   }
 };
 
-// ../../../node_modules/.pnpm/graphql-yoga@5.1.1_graphql@16.8.1/node_modules/graphql-yoga/esm/utils/create-lru-cache.js
+// ../../../node_modules/.pnpm/graphql-yoga@5.7.0_graphql@16.9.0/node_modules/graphql-yoga/esm/utils/create-lru-cache.js
 var DEFAULT_MAX = 1024;
 var DEFAULT_TTL = 36e5;
 function createLRUCache({ max = DEFAULT_MAX, ttl = DEFAULT_TTL } = {}) {
   return new LRUCache({ max, ttl });
 }
 
-// ../../../node_modules/.pnpm/graphql-yoga@5.1.1_graphql@16.8.1/node_modules/graphql-yoga/esm/plugins/use-parser-and-validation-cache.js
+// ../../../node_modules/.pnpm/graphql-yoga@5.7.0_graphql@16.9.0/node_modules/graphql-yoga/esm/plugins/use-parser-and-validation-cache.js
 function useParserAndValidationCache({ documentCache = createLRUCache(), errorCache = createLRUCache(), validationCache = true }) {
   const validationCacheByRules = createLRUCache();
   return {
@@ -5084,7 +5389,7 @@ function useParserAndValidationCache({ documentCache = createLRUCache(), errorCa
   };
 }
 
-// ../../../node_modules/.pnpm/graphql-yoga@5.1.1_graphql@16.8.1/node_modules/graphql-yoga/esm/plugins/use-request-parser.js
+// ../../../node_modules/.pnpm/graphql-yoga@5.7.0_graphql@16.9.0/node_modules/graphql-yoga/esm/plugins/use-request-parser.js
 var DEFAULT_MATCHER = () => true;
 function useRequestParser(options) {
   const matchFn = options.match || DEFAULT_MATCHER;
@@ -5097,7 +5402,7 @@ function useRequestParser(options) {
   };
 }
 
-// ../../../node_modules/.pnpm/graphql-yoga@5.1.1_graphql@16.8.1/node_modules/graphql-yoga/esm/plugins/result-processor/accept.js
+// ../../../node_modules/.pnpm/graphql-yoga@5.7.0_graphql@16.9.0/node_modules/graphql-yoga/esm/plugins/result-processor/accept.js
 function getMediaTypesForRequestInOrder(request) {
   const accepts = (request.headers.get("accept") || "*/*").replace(/\s/g, "").toLowerCase().split(",");
   const mediaTypes = [];
@@ -5120,7 +5425,7 @@ function isMatchingMediaType(askedMediaType, processorMediaType) {
   return false;
 }
 
-// ../../../node_modules/.pnpm/graphql-yoga@5.1.1_graphql@16.8.1/node_modules/graphql-yoga/esm/plugins/result-processor/stringify.js
+// ../../../node_modules/.pnpm/graphql-yoga@5.7.0_graphql@16.9.0/node_modules/graphql-yoga/esm/plugins/result-processor/stringify.js
 function jsonStringifyResultWithoutInternals(result) {
   if (Array.isArray(result)) {
     return `[${result.map((r) => {
@@ -5161,7 +5466,7 @@ function omitInternalsFromError(err) {
   return err;
 }
 
-// ../../../node_modules/.pnpm/graphql-yoga@5.1.1_graphql@16.8.1/node_modules/graphql-yoga/esm/plugins/result-processor/multipart.js
+// ../../../node_modules/.pnpm/graphql-yoga@5.7.0_graphql@16.9.0/node_modules/graphql-yoga/esm/plugins/result-processor/multipart.js
 function processMultipartResult(result, fetchAPI) {
   const headersInit = {
     Connection: "keep-alive",
@@ -5187,26 +5492,31 @@ function processMultipartResult(result, fetchAPI) {
           }
         };
       }
+      controller.enqueue(textEncoder.encode("\r\n"));
       controller.enqueue(textEncoder.encode(`---`));
     },
     async pull(controller) {
-      const { done, value } = await iterator.next();
-      if (value != null) {
-        controller.enqueue(textEncoder.encode("\r\n"));
-        controller.enqueue(textEncoder.encode("Content-Type: application/json; charset=utf-8"));
-        controller.enqueue(textEncoder.encode("\r\n"));
-        const chunk = jsonStringifyResultWithoutInternals(value);
-        const encodedChunk = textEncoder.encode(chunk);
-        controller.enqueue(textEncoder.encode("Content-Length: " + encodedChunk.byteLength));
-        controller.enqueue(textEncoder.encode("\r\n"));
-        controller.enqueue(textEncoder.encode("\r\n"));
-        controller.enqueue(encodedChunk);
-        controller.enqueue(textEncoder.encode("\r\n"));
-        controller.enqueue(textEncoder.encode("---"));
-      }
-      if (done) {
-        controller.enqueue(textEncoder.encode("--\r\n"));
-        controller.close();
+      try {
+        const { done, value } = await iterator.next();
+        if (value != null) {
+          controller.enqueue(textEncoder.encode("\r\n"));
+          controller.enqueue(textEncoder.encode("Content-Type: application/json; charset=utf-8"));
+          controller.enqueue(textEncoder.encode("\r\n"));
+          const chunk = jsonStringifyResultWithoutInternals(value);
+          const encodedChunk = textEncoder.encode(chunk);
+          controller.enqueue(textEncoder.encode("Content-Length: " + encodedChunk.byteLength));
+          controller.enqueue(textEncoder.encode("\r\n"));
+          controller.enqueue(textEncoder.encode("\r\n"));
+          controller.enqueue(encodedChunk);
+          controller.enqueue(textEncoder.encode("\r\n"));
+          controller.enqueue(textEncoder.encode("---"));
+        }
+        if (done) {
+          controller.enqueue(textEncoder.encode("--\r\n"));
+          controller.close();
+        }
+      } catch (err) {
+        controller.error(err);
       }
     },
     async cancel(e) {
@@ -5216,8 +5526,8 @@ function processMultipartResult(result, fetchAPI) {
   return new fetchAPI.Response(readableStream, responseInit);
 }
 
-// ../../../node_modules/.pnpm/graphql-yoga@5.1.1_graphql@16.8.1/node_modules/graphql-yoga/esm/plugins/result-processor/regular.js
-import { isAsyncIterable as isAsyncIterable4 } from "https://esm.sh/@graphql-tools/utils@10.0.12";
+// ../../../node_modules/.pnpm/graphql-yoga@5.7.0_graphql@16.9.0/node_modules/graphql-yoga/esm/plugins/result-processor/regular.js
+import { isAsyncIterable as isAsyncIterable4 } from "https://esm.sh/@graphql-tools/utils@10.5.4";
 function processRegularResult(executionResult, fetchAPI, acceptedHeader) {
   if (isAsyncIterable4(executionResult)) {
     return new fetchAPI.Response(null, {
@@ -5241,7 +5551,7 @@ function processRegularResult(executionResult, fetchAPI, acceptedHeader) {
   return new fetchAPI.Response(responseBody, responseInit);
 }
 
-// ../../../node_modules/.pnpm/graphql-yoga@5.1.1_graphql@16.8.1/node_modules/graphql-yoga/esm/plugins/result-processor/sse.js
+// ../../../node_modules/.pnpm/graphql-yoga@5.7.0_graphql@16.9.0/node_modules/graphql-yoga/esm/plugins/result-processor/sse.js
 function getSSEProcessor() {
   return function processSSEResult(result, fetchAPI) {
     let pingIntervalMs = 12e3;
@@ -5284,21 +5594,27 @@ function getSSEProcessor() {
         }
       },
       async pull(controller) {
-        const { done, value } = await iterator.next();
-        if (value != null) {
-          controller.enqueue(textEncoder.encode(`event: next
+        try {
+          const result2 = await iterator.next();
+          if (result2.value != null) {
+            controller.enqueue(textEncoder.encode(`event: next
 `));
-          const chunk = jsonStringifyResultWithoutInternals(value);
-          controller.enqueue(textEncoder.encode(`data: ${chunk}
+            const chunk = jsonStringifyResultWithoutInternals(result2.value);
+            controller.enqueue(textEncoder.encode(`data: ${chunk}
 
 `));
-        }
-        if (done) {
-          controller.enqueue(textEncoder.encode(`event: complete
+          }
+          if (result2.done) {
+            controller.enqueue(textEncoder.encode(`event: complete
+`));
+            controller.enqueue(textEncoder.encode(`data:
 
 `));
-          clearInterval(pingInterval);
-          controller.close();
+            clearInterval(pingInterval);
+            controller.close();
+          }
+        } catch (err) {
+          controller.error(err);
         }
       },
       async cancel(e) {
@@ -5310,7 +5626,7 @@ function getSSEProcessor() {
   };
 }
 
-// ../../../node_modules/.pnpm/graphql-yoga@5.1.1_graphql@16.8.1/node_modules/graphql-yoga/esm/plugins/use-result-processor.js
+// ../../../node_modules/.pnpm/graphql-yoga@5.7.0_graphql@16.9.0/node_modules/graphql-yoga/esm/plugins/use-result-processor.js
 var multipart = {
   mediaTypes: ["multipart/mixed"],
   asyncIterables: true,
@@ -5361,7 +5677,10 @@ function useResultProcessors() {
   };
 }
 
-// ../../../node_modules/.pnpm/graphql-yoga@5.1.1_graphql@16.8.1/node_modules/graphql-yoga/esm/landing-page-html.js
+// ../../../node_modules/.pnpm/graphql-yoga@5.7.0_graphql@16.9.0/node_modules/graphql-yoga/esm/plugins/use-unhandled-route.js
+import { isPromise as isPromise3 } from "https://esm.sh/@graphql-tools/utils@10.5.4";
+
+// ../../../node_modules/.pnpm/graphql-yoga@5.7.0_graphql@16.9.0/node_modules/graphql-yoga/esm/landing-page-html.js
 var landing_page_html_default = `<!doctype html><html lang=en><head><meta charset=utf-8><title>Welcome to GraphQL Yoga</title><link rel=icon href=https://raw.githubusercontent.com/dotansimha/graphql-yoga/main/website/public/favicon.ico><style>body,html{padding:0;margin:0;height:100%;font-family:Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen,Ubuntu,Cantarell,'Fira Sans','Droid Sans','Helvetica Neue',sans-serif;color:#fff;background-color:#000}main>section.hero{display:flex;height:90vh;justify-content:center;align-items:center;flex-direction:column}.logo{display:flex;align-items:center}.buttons{margin-top:24px}h1{font-size:80px}h2{color:#888;max-width:50%;margin-top:0;text-align:center}a{color:#fff;text-decoration:none;margin-left:10px;margin-right:10px;font-weight:700;transition:color .3s ease;padding:4px;overflow:visible}a.graphiql:hover{color:rgba(255,0,255,.7)}a.docs:hover{color:rgba(28,200,238,.7)}a.tutorial:hover{color:rgba(125,85,245,.7)}svg{margin-right:24px}.not-what-your-looking-for{margin-top:5vh}.not-what-your-looking-for>*{margin-left:auto;margin-right:auto}.not-what-your-looking-for>p{text-align:center}.not-what-your-looking-for>h2{color:#464646}.not-what-your-looking-for>p{max-width:600px;line-height:1.3em}.not-what-your-looking-for>pre{max-width:300px}</style></head><body id=body><main><section class=hero><div class=logo><div><svg xmlns=http://www.w3.org/2000/svg viewBox="-0.41 0.445 472.812 499.811" height=150><defs><linearGradient id=paint0_linear_1677_11483 x1=16 y1=14 x2=87.2132 y2=44.5982 gradientUnits=userSpaceOnUse gradientTransform="matrix(8.139854, 0, 0, 8.139854, -130.346407, -113.25101)"><stop stop-color=#7433FF /><stop offset=1 stop-color=#FFA3FD /></linearGradient><linearGradient id=paint1_linear_1677_11483 x1=16 y1=14 x2=87.2132 y2=44.5982 gradientUnits=userSpaceOnUse gradientTransform="matrix(8.139854, 0, 0, 8.139854, -130.346407, -113.25101)"><stop stop-color=#7433FF /><stop offset=1 stop-color=#FFA3FD /></linearGradient><linearGradient id=paint2_linear_1677_11483 x1=16 y1=14 x2=87.2132 y2=44.5982 gradientUnits=userSpaceOnUse gradientTransform="matrix(8.139854, 0, 0, 8.139854, -130.346407, -113.25101)"><stop stop-color=#7433FF /><stop offset=1 stop-color=#FFA3FD /></linearGradient><linearGradient id=paint3_linear_1677_11483 x1=16 y1=14 x2=87.2132 y2=44.5982 gradientUnits=userSpaceOnUse><stop stop-color=#7433FF /><stop offset=1 stop-color=#FFA3FD /></linearGradient><linearGradient id=paint4_linear_1677_11483 x1=16 y1=14 x2=87.2132 y2=44.5982 gradientUnits=userSpaceOnUse><stop stop-color=#7433FF /><stop offset=1 stop-color=#FFA3FD /></linearGradient><linearGradient id=paint5_linear_1677_11483 x1=16 y1=14 x2=87.2132 y2=44.5982 gradientUnits=userSpaceOnUse><stop stop-color=#7433FF /><stop offset=1 stop-color=#FFA3FD /></linearGradient><filter id=filter0_f_1677_11483 x=23 y=-25 width=100 height=100 filterUnits=userSpaceOnUse color-interpolation-filters=sRGB><feFlood flood-opacity=0 result=BackgroundImageFix /><feBlend mode=normal in=SourceGraphic in2=BackgroundImageFix result=shape /><feGaussianBlur stdDeviation=12 result=effect1_foregroundBlur_1677_11483 /></filter><filter id=filter1_f_1677_11483 x=-24 y=19 width=100 height=100 filterUnits=userSpaceOnUse color-interpolation-filters=sRGB><feFlood flood-opacity=0 result=BackgroundImageFix /><feBlend mode=normal in=SourceGraphic in2=BackgroundImageFix result=shape /><feGaussianBlur stdDeviation=12 result=effect1_foregroundBlur_1677_11483 /></filter><linearGradient id=paint6_linear_1677_11483 x1=30 y1=28 x2=66.1645 y2=44.4363 gradientUnits=userSpaceOnUse gradientTransform="matrix(8.139854, 0, 0, 8.139854, -130.346407, -113.25101)"><stop stop-color=#7433FF /><stop offset=1 stop-color=#FFA3FD /></linearGradient><filter id=filter2_f_1677_11483 x=-12 y=-44 width=100 height=100 filterUnits=userSpaceOnUse color-interpolation-filters=sRGB><feFlood flood-opacity=0 result=BackgroundImageFix /><feBlend mode=normal in=SourceGraphic in2=BackgroundImageFix result=shape /><feGaussianBlur stdDeviation=12 result=effect1_foregroundBlur_1677_11483 /></filter><filter id=filter3_f_1677_11483 x=13 y=19 width=100 height=100 filterUnits=userSpaceOnUse color-interpolation-filters=sRGB><feFlood flood-opacity=0 result=BackgroundImageFix /><feBlend mode=normal in=SourceGraphic in2=BackgroundImageFix result=shape /><feGaussianBlur stdDeviation=12 result=effect1_foregroundBlur_1677_11483 /></filter></defs><mask id=mask0_1677_11483 style=mask-type:alpha maskUnits=userSpaceOnUse x=16 y=14 width=58 height=62><path d="M21 25.3501C21.7279 25.3501 22.4195 25.5056 23.0433 25.7853L42.1439 14.8C43.0439 14.3 44.1439 14 45.1439 14C46.2439 14 47.2439 14.3 48.1439 14.8L64.5439 24.3C63.3439 25.1 62.4439 26.3 61.8439 27.7L45.9438 18.5C45.6439 18.3 45.344 18.3 45.0441 18.3C44.7441 18.3 44.4439 18.4 44.1439 18.5L25.8225 29.0251C25.9382 29.4471 26 29.8914 26 30.3501C26 33.1115 23.7614 35.3501 21 35.3501C18.2386 35.3501 16 33.1115 16 30.3501C16 27.5887 18.2386 25.3501 21 25.3501Z" fill=url(#paint3_linear_1677_11483) /><path d="M67.2438 35.0329C65.3487 34.3219 64 32.4934 64 30.35C64 27.5886 66.2386 25.35 69 25.35C71.7614 25.35 74 27.5886 74 30.35C74 32.1825 73.0142 33.7848 71.5439 34.6554V55.2C71.5439 57.4 70.3439 59.4 68.5439 60.5L52.1439 69.9C52.1439 68.4 51.6438 66.9 50.7438 65.8L66.3439 56.8C66.9439 56.5 67.2438 55.9 67.2438 55.2V35.0329Z" fill=url(#paint4_linear_1677_11483) /><path d="M49.8439 69.1055C49.9458 69.5034 50 69.9204 50 70.3501C50 73.1115 47.7614 75.3501 45 75.3501C42.5102 75.3501 40.4454 73.5302 40.0633 71.1481L21.8439 60.6C19.9439 59.5 18.8439 57.5 18.8439 55.3V36.8C19.5439 37 20.3439 37.2 21.0439 37.2C21.7439 37.2 22.4439 37.1 23.0439 36.9V55.3C23.0439 56 23.4438 56.6 23.9438 56.9L41.3263 66.9583C42.2398 65.9694 43.5476 65.3501 45 65.3501C47.3291 65.3501 49.2862 66.9426 49.8419 69.0981L49.8436 69.0997L49.8439 69.1055Z" fill=url(#paint5_linear_1677_11483) /></mask><mask id=mask1_1677_11483 style=mask-type:alpha maskUnits=userSpaceOnUse x=30 y=28 width=30 height=30><path fill-rule=evenodd clip-rule=evenodd d="M49.3945 32.3945C49.3945 34.7088 47.5796 38.5469 45 38.5469C42.4271 38.5469 40.6055 34.7112 40.6055 32.3945C40.6055 29.9714 42.5769 28 45 28C47.4231 28 49.3945 29.9714 49.3945 32.3945ZM35.332 49.0433V48.2148C35.332 42.8117 37.8535 41.0004 39.8796 39.545L39.8801 39.5447C40.3928 39.1767 40.8604 38.8404 41.2488 38.4742C42.3293 39.6642 43.626 40.3047 45 40.3047C46.3752 40.3047 47.6725 39.6642 48.7529 38.4754C49.1408 38.841 49.6078 39.1773 50.1199 39.5447L50.1204 39.545C52.1465 41.0004 54.668 42.8117 54.668 48.2148V49.0433L53.8406 49.092C49.9848 49.3185 46.8646 46.9002 45 43.5777C43.1159 46.935 39.9847 49.318 36.1594 49.092L35.332 49.0433ZM58.1463 51.0747L58.1463 51.0746C57.0179 50.891 50.0128 49.7507 45.0007 55.693C40.0116 49.7553 33.1965 50.8592 31.9095 51.0677L31.9095 51.0677C31.7906 51.087 31.7189 51.0986 31.7002 51.0963C31.7005 51.0969 31.7011 51.1045 31.7023 51.1187C31.726 51.4003 31.9682 54.2745 34.0566 56.2422L30 58H60L55.8956 56.2422C57.8537 54.4764 58.1396 52.2685 58.2508 51.4092V51.4091C58.2697 51.2628 58.2836 51.1556 58.2998 51.0963C58.2881 51.0977 58.2356 51.0892 58.1463 51.0747ZM40.4836 50.104C42.3956 49.3212 43.6746 48.1737 45 46.61C46.332 48.1841 47.6159 49.3259 49.5164 50.104C49.5356 50.1425 49.5557 50.1805 49.5756 50.2182C49.5793 50.2253 49.583 50.2323 49.5867 50.2393C48.0911 50.8127 46.4264 51.825 45.0047 53.1444C43.5906 51.8221 41.9673 50.8196 40.4256 50.2153C40.4455 50.1784 40.4648 50.1415 40.4836 50.104Z" fill=black /></mask><path d="M 40.59 93.095 C 46.517 93.095 52.14 94.365 57.22 96.635 L 212.7 7.22 C 220.025 3.149 228.978 0.706 237.12 0.706 C 246.073 0.706 254.213 3.149 261.54 7.22 L 395.032 84.547 C 385.264 91.059 377.939 100.827 373.055 112.224 L 243.631 37.338 C 241.19 35.71 238.747 35.71 236.305 35.71 C 233.863 35.71 231.42 36.523 228.978 37.338 L 79.84 123.009 C 80.786 126.443 81.29 130.058 81.29 133.793 C 81.29 156.269 63.065 174.493 40.59 174.493 C 18.116 174.493 -0.109 156.269 -0.109 133.793 C -0.109 111.32 18.116 93.095 40.59 93.095 Z" fill=url(#paint0_linear_1677_11483) /><path d="M 417.01 171.913 C 401.585 166.126 390.603 151.238 390.603 133.793 C 390.603 111.32 408.83 93.095 431.303 93.095 C 453.777 93.095 472.001 111.32 472.001 133.793 C 472.001 148.706 463.976 161.755 452.011 168.835 L 452.011 336.07 C 452.011 353.977 442.243 370.258 427.591 379.21 L 294.098 455.726 C 294.098 443.516 290.029 431.306 282.703 422.353 L 409.683 349.093 C 414.568 346.651 417.01 341.767 417.01 336.07 L 417.01 171.913 Z" fill=url(#paint1_linear_1677_11483) /><path d="M 275.376 449.253 C 276.206 452.495 276.646 455.889 276.646 459.389 C 276.646 481.863 258.422 500.087 235.947 500.087 C 215.679 500.087 198.87 485.272 195.761 465.883 L 47.46 380.025 C 31.995 371.071 23.041 354.792 23.041 336.884 L 23.041 186.296 C 28.738 187.923 35.25 189.553 40.948 189.553 C 46.646 189.553 52.345 188.738 57.228 187.111 L 57.228 336.884 C 57.228 342.582 60.485 347.465 64.554 349.908 L 206.042 431.777 C 213.481 423.728 224.127 418.689 235.947 418.689 C 254.905 418.689 270.833 431.656 275.36 449.196 L 275.376 449.214 L 275.376 449.253 Z" fill=url(#paint2_linear_1677_11483) /><g mask=url(#mask0_1677_11483) transform="matrix(8.139854, 0, 0, 8.139854, -130.346375, -113.251038)"><g filter=url(#filter0_f_1677_11483)><circle cx=73 cy=25 r=26 fill=#ED2E7E /></g><g filter=url(#filter1_f_1677_11483)><circle cx=26 cy=69 r=26 fill=#1CC8EE /></g></g><path fill-rule=evenodd clip-rule=evenodd d="M 271.713 150.431 C 271.713 169.275 256.948 200.517 235.947 200.517 C 215.003 200.517 200.172 169.292 200.172 150.431 C 200.172 130.708 216.225 114.666 235.947 114.666 C 255.67 114.666 271.713 130.708 271.713 150.431 Z M 157.251 285.952 L 157.251 279.212 C 157.251 235.233 177.771 220.485 194.27 208.641 C 198.447 205.644 202.247 202.901 205.414 199.923 C 214.204 209.608 224.763 214.826 235.947 214.826 C 247.138 214.826 257.697 209.608 266.496 199.931 C 269.653 202.911 273.456 205.644 277.622 208.641 C 294.114 220.485 314.642 235.233 314.642 279.212 L 314.642 285.952 L 307.912 286.351 C 276.525 288.191 251.128 268.509 235.947 241.468 C 220.611 268.795 195.126 288.191 163.981 286.351 L 157.251 285.952 Z M 342.953 302.492 C 333.771 300.994 276.751 291.715 235.955 340.082 C 195.345 291.749 139.865 300.734 129.389 302.436 C 128.428 302.59 127.841 302.688 127.687 302.665 C 127.687 302.673 127.695 302.729 127.702 302.85 C 127.897 305.138 129.867 328.532 146.872 344.55 L 113.849 358.862 L 358.044 358.862 L 324.639 344.55 C 340.576 330.177 342.905 312.202 343.807 305.212 C 343.962 304.022 344.077 303.153 344.206 302.665 C 344.108 302.68 343.686 302.606 342.953 302.492 Z M 199.188 294.59 C 214.751 288.215 225.161 278.879 235.947 266.15 C 246.788 278.96 257.241 288.255 272.707 294.59 C 272.869 294.898 273.031 295.207 273.196 295.518 C 273.219 295.574 273.252 295.631 273.285 295.688 C 261.107 300.361 247.555 308.598 235.989 319.334 C 224.477 308.573 211.258 300.417 198.715 295.493 C 198.87 295.191 199.033 294.891 199.188 294.59 Z" fill=url(#paint6_linear_1677_11483) /><g mask=url(#mask1_1677_11483) transform="matrix(8.139854, 0, 0, 8.139854, -130.346375, -113.251038)"><g filter=url(#filter2_f_1677_11483)><circle cx=38 cy=6 r=26 fill=#ED2E7E /></g><g filter=url(#filter3_f_1677_11483)><circle cx=63 cy=69 r=26 fill=#1CC8EE /></g></g></svg></div><h1>GraphQL Yoga</h1></div><h2>The batteries-included cross-platform GraphQL Server.</h2><div class=buttons><a href=https://www.the-guild.dev/graphql/yoga-server/docs class=docs>Read the Docs</a> <a href=https://www.the-guild.dev/graphql/yoga-server/tutorial/basic class=tutorial>Start the Tutorial </a><a href=__GRAPHIQL_LINK__ class=graphiql>Visit GraphiQL</a></div></section><section class=not-what-your-looking-for><h2>Not the page you are looking for? \u{1F440}</h2><p>This page is shown be default whenever a 404 is hit.<br>You can disable this by behavior via the <code>landingPage</code> option.</p><pre>
           <code>
 import { createYoga } from 'graphql-yoga';
@@ -5380,7 +5699,16 @@ const yoga = createYoga({
           </code>
         </pre></section></main></body></html>`;
 
-// ../../../node_modules/.pnpm/graphql-yoga@5.1.1_graphql@16.8.1/node_modules/graphql-yoga/esm/plugins/use-unhandled-route.js
+// ../../../node_modules/.pnpm/graphql-yoga@5.7.0_graphql@16.9.0/node_modules/graphql-yoga/esm/plugins/use-unhandled-route.js
+var defaultRenderLandingPage = function defaultRenderLandingPage2(opts) {
+  return new opts.fetchAPI.Response(landing_page_html_default.replace(/__GRAPHIQL_LINK__/g, opts.graphqlEndpoint).replace(/__REQUEST_PATH__/g, opts.url.pathname), {
+    status: 200,
+    statusText: "OK",
+    headers: {
+      "Content-Type": "text/html"
+    }
+  });
+};
 function useUnhandledRoute(args) {
   let urlPattern;
   function getUrlPattern({ URLPattern: URLPattern2 }) {
@@ -5389,17 +5717,24 @@ function useUnhandledRoute(args) {
     });
     return urlPattern;
   }
+  const landingPageRenderer = args.landingPageRenderer || defaultRenderLandingPage;
   return {
     onRequest({ request, fetchAPI, endResponse: endResponse2, url }) {
       if (!request.url.endsWith(args.graphqlEndpoint) && !request.url.endsWith(`${args.graphqlEndpoint}/`) && url.pathname !== args.graphqlEndpoint && url.pathname !== `${args.graphqlEndpoint}/` && !getUrlPattern(fetchAPI).test(url)) {
         if (args.showLandingPage === true && request.method === "GET" && !!request.headers?.get("accept")?.includes("text/html")) {
-          endResponse2(new fetchAPI.Response(landing_page_html_default.replace(/__GRAPHIQL_LINK__/g, args.graphqlEndpoint).replace(/__REQUEST_PATH__/g, url.pathname), {
-            status: 200,
-            statusText: "OK",
-            headers: {
-              "Content-Type": "text/html"
+          const landingPage$ = landingPageRenderer({
+            request,
+            fetchAPI,
+            url,
+            graphqlEndpoint: args.graphqlEndpoint,
+            get urlPattern() {
+              return getUrlPattern(fetchAPI);
             }
-          }));
+          });
+          if (isPromise3(landingPage$)) {
+            return landingPage$.then(endResponse2);
+          }
+          endResponse2(landingPage$);
           return;
         }
         endResponse2(new fetchAPI.Response("", {
@@ -5411,9 +5746,9 @@ function useUnhandledRoute(args) {
   };
 }
 
-// ../../../node_modules/.pnpm/graphql-yoga@5.1.1_graphql@16.8.1/node_modules/graphql-yoga/esm/process-request.js
-import { getOperationAST as getOperationAST3 } from "https://esm.sh/graphql@16.8.1";
-async function processResult({ request, result, fetchAPI, onResultProcessHooks }) {
+// ../../../node_modules/.pnpm/graphql-yoga@5.7.0_graphql@16.9.0/node_modules/graphql-yoga/esm/process-request.js
+import { getOperationAST as getOperationAST3 } from "https://esm.sh/graphql@16.8.2";
+async function processResult({ request, result, fetchAPI, onResultProcessHooks, serverContext }) {
   let resultProcessor;
   const acceptableMediaTypes = [];
   let acceptedMediaType = "*/*";
@@ -5429,7 +5764,8 @@ async function processResult({ request, result, fetchAPI, onResultProcessHooks }
       setResultProcessor(newResultProcessor, newAcceptedMimeType) {
         resultProcessor = newResultProcessor;
         acceptedMediaType = newAcceptedMimeType;
-      }
+      },
+      serverContext
     });
   }
   if (!resultProcessor) {
@@ -5462,8 +5798,8 @@ async function processRequest({ params, enveloped }) {
   return executeFn(executionArgs);
 }
 
-// ../../../node_modules/.pnpm/graphql-yoga@5.1.1_graphql@16.8.1/node_modules/graphql-yoga/esm/utils/mask-error.js
-import { createGraphQLError as createGraphQLError9 } from "https://esm.sh/@graphql-tools/utils@10.0.12";
+// ../../../node_modules/.pnpm/graphql-yoga@5.7.0_graphql@16.9.0/node_modules/graphql-yoga/esm/utils/mask-error.js
+import { createGraphQLError as createGraphQLError9 } from "https://esm.sh/@graphql-tools/utils@10.5.4";
 var maskError = (error, message, isDev2 = globalThis.process?.env?.NODE_ENV === "development") => {
   if (isGraphQLError(error)) {
     if (error.originalError) {
@@ -5501,7 +5837,7 @@ var maskError = (error, message, isDev2 = globalThis.process?.env?.NODE_ENV === 
   });
 };
 
-// ../../../node_modules/.pnpm/graphql-yoga@5.1.1_graphql@16.8.1/node_modules/graphql-yoga/esm/server.js
+// ../../../node_modules/.pnpm/graphql-yoga@5.7.0_graphql@16.9.0/node_modules/graphql-yoga/esm/server.js
 var YogaServer = class {
   /**
    * Instance of envelop
@@ -5513,6 +5849,7 @@ var YogaServer = class {
   plugins;
   onRequestParseHooks;
   onParamsHooks;
+  onExecutionResultHooks;
   onResultProcessHooks;
   maskedErrorsOpts;
   id;
@@ -5613,7 +5950,7 @@ var YogaServer = class {
       }),
       // Middlewares after the GraphQL execution
       useResultProcessors(),
-      useErrorHandling((error, request) => {
+      useErrorHandling((error, request, serverContext) => {
         const errors = handleError(error, this.maskedErrorsOpts, this.logger);
         const result = {
           errors
@@ -5622,7 +5959,8 @@ var YogaServer = class {
           request,
           result,
           fetchAPI: this.fetchAPI,
-          onResultProcessHooks: this.onResultProcessHooks
+          onResultProcessHooks: this.onResultProcessHooks,
+          serverContext
         });
       }),
       ...options?.plugins ?? [],
@@ -5636,17 +5974,30 @@ var YogaServer = class {
             );
           }
           addPlugin(useLimitBatching(batchingLimit));
-          addPlugin(useCheckGraphQLQueryParams());
+          addPlugin(useCheckGraphQLQueryParams(options?.extraParamNames));
+          const showLandingPage = !!(options?.landingPage ?? true);
           addPlugin(
             // @ts-expect-error Add plugins has context but this hook doesn't care
             useUnhandledRoute({
               graphqlEndpoint,
-              showLandingPage: options?.landingPage ?? true
+              showLandingPage,
+              landingPageRenderer: typeof options?.landingPage === "function" ? options.landingPage : void 0
             })
           );
           addPlugin(useCheckMethodForGraphQL());
           addPlugin(usePreventMutationViaGET());
           if (maskedErrors) {
+            addPlugin({
+              onSubscribe() {
+                return {
+                  onSubscribeError({ error }) {
+                    if (isAbortError(error)) {
+                      throw error;
+                    }
+                  }
+                };
+              }
+            });
             addPlugin(useMaskedErrors(maskedErrors));
           }
           addPlugin(
@@ -5662,6 +6013,7 @@ var YogaServer = class {
     this.plugins = this.getEnveloped._plugins;
     this.onRequestParseHooks = [];
     this.onParamsHooks = [];
+    this.onExecutionResultHooks = [];
     this.onResultProcessHooks = [];
     for (const plugin of this.plugins) {
       if (plugin) {
@@ -5676,15 +6028,19 @@ var YogaServer = class {
         if (plugin.onParams) {
           this.onParamsHooks.push(plugin.onParams);
         }
+        if (plugin.onExecutionResult) {
+          this.onExecutionResultHooks.push(plugin.onExecutionResult);
+        }
         if (plugin.onResultProcess) {
           this.onResultProcessHooks.push(plugin.onResultProcess);
         }
       }
     }
   }
-  async getResultForParams({ params, request, batched }, ...args) {
+  async getResultForParams({ params, request, batched }, serverContext) {
+    let result;
+    let context = serverContext;
     try {
-      let result;
       for (const onParamsHook of this.onParamsHooks) {
         await onParamsHook({
           params,
@@ -5699,14 +6055,14 @@ var YogaServer = class {
         });
       }
       if (result == null) {
-        const additionalContext = args[0]?.request ? {
+        const additionalContext = serverContext.request === request ? {
           params
         } : {
           request,
           params
         };
-        const initialContext = args[0] ? batched ? Object.assign({}, args[0], additionalContext) : Object.assign(args[0], additionalContext) : additionalContext;
-        const enveloped = this.getEnveloped(initialContext);
+        context = Object.assign(batched ? Object.create(serverContext) : serverContext, additionalContext);
+        const enveloped = this.getEnveloped(context);
         this.logger.debug(`Processing GraphQL Parameters`);
         result = await processRequest({
           params,
@@ -5714,14 +6070,36 @@ var YogaServer = class {
         });
         this.logger.debug(`Processing GraphQL Parameters done.`);
       }
-      return result;
+      if (isAsyncIterable(result)) {
+        const iterator = result[Symbol.asyncIterator]();
+        result = mapAsyncIterator3(iterator, (v) => v, (err) => {
+          if (err.name === "AbortError") {
+            this.logger.debug(`Request aborted`);
+            throw err;
+          }
+          const errors = handleError(err, this.maskedErrorsOpts, this.logger);
+          return {
+            errors
+          };
+        });
+      }
     } catch (error) {
       const errors = handleError(error, this.maskedErrorsOpts, this.logger);
-      const result = {
+      result = {
         errors
       };
-      return result;
     }
+    for (const onExecutionResult of this.onExecutionResultHooks) {
+      await onExecutionResult({
+        result,
+        setResult(newResult) {
+          result = newResult;
+        },
+        request,
+        context
+      });
+    }
+    return result;
   }
   handle = async (request, serverContext) => {
     let url = new Proxy({}, {
@@ -5775,7 +6153,8 @@ var YogaServer = class {
       request,
       result,
       fetchAPI: this.fetchAPI,
-      onResultProcessHooks: this.onResultProcessHooks
+      onResultProcessHooks: this.onResultProcessHooks,
+      serverContext
     });
   };
 };
@@ -5787,14 +6166,12 @@ function createYoga(options) {
   });
 }
 
-// ../../../node_modules/.pnpm/@repeaterjs+repeater@3.0.5/node_modules/@repeaterjs/repeater/repeater.js
+// ../../../node_modules/.pnpm/@repeaterjs+repeater@3.0.6/node_modules/@repeaterjs/repeater/repeater.js
 var extendStatics = function(d, b) {
   extendStatics = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function(d2, b2) {
     d2.__proto__ = b2;
   } || function(d2, b2) {
-    for (var p in b2)
-      if (b2.hasOwnProperty(p))
-        d2[p] = b2[p];
+    for (var p in b2) if (b2.hasOwnProperty(p)) d2[p] = b2[p];
   };
   return extendStatics(d, b);
 };
@@ -5834,8 +6211,7 @@ function __awaiter(thisArg, _arguments, P, generator) {
 }
 function __generator(thisArg, body) {
   var _ = { label: 0, sent: function() {
-    if (t[0] & 1)
-      throw t[1];
+    if (t[0] & 1) throw t[1];
     return t[1];
   }, trys: [], ops: [] }, f, y, t, g;
   return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() {
@@ -5847,98 +6223,87 @@ function __generator(thisArg, body) {
     };
   }
   function step(op) {
-    if (f)
-      throw new TypeError("Generator is already executing.");
-    while (_)
-      try {
-        if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done)
-          return t;
-        if (y = 0, t)
-          op = [op[0] & 2, t.value];
-        switch (op[0]) {
-          case 0:
-          case 1:
+    if (f) throw new TypeError("Generator is already executing.");
+    while (_) try {
+      if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+      if (y = 0, t) op = [op[0] & 2, t.value];
+      switch (op[0]) {
+        case 0:
+        case 1:
+          t = op;
+          break;
+        case 4:
+          _.label++;
+          return { value: op[1], done: false };
+        case 5:
+          _.label++;
+          y = op[1];
+          op = [0];
+          continue;
+        case 7:
+          op = _.ops.pop();
+          _.trys.pop();
+          continue;
+        default:
+          if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) {
+            _ = 0;
+            continue;
+          }
+          if (op[0] === 3 && (!t || op[1] > t[0] && op[1] < t[3])) {
+            _.label = op[1];
+            break;
+          }
+          if (op[0] === 6 && _.label < t[1]) {
+            _.label = t[1];
             t = op;
             break;
-          case 4:
-            _.label++;
-            return { value: op[1], done: false };
-          case 5:
-            _.label++;
-            y = op[1];
-            op = [0];
-            continue;
-          case 7:
-            op = _.ops.pop();
-            _.trys.pop();
-            continue;
-          default:
-            if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) {
-              _ = 0;
-              continue;
-            }
-            if (op[0] === 3 && (!t || op[1] > t[0] && op[1] < t[3])) {
-              _.label = op[1];
-              break;
-            }
-            if (op[0] === 6 && _.label < t[1]) {
-              _.label = t[1];
-              t = op;
-              break;
-            }
-            if (t && _.label < t[2]) {
-              _.label = t[2];
-              _.ops.push(op);
-              break;
-            }
-            if (t[2])
-              _.ops.pop();
-            _.trys.pop();
-            continue;
-        }
-        op = body.call(thisArg, _);
-      } catch (e) {
-        op = [6, e];
-        y = 0;
-      } finally {
-        f = t = 0;
+          }
+          if (t && _.label < t[2]) {
+            _.label = t[2];
+            _.ops.push(op);
+            break;
+          }
+          if (t[2]) _.ops.pop();
+          _.trys.pop();
+          continue;
       }
-    if (op[0] & 5)
-      throw op[1];
+      op = body.call(thisArg, _);
+    } catch (e) {
+      op = [6, e];
+      y = 0;
+    } finally {
+      f = t = 0;
+    }
+    if (op[0] & 5) throw op[1];
     return { value: op[0] ? op[1] : void 0, done: true };
   }
 }
 function __values(o) {
   var s = typeof Symbol === "function" && Symbol.iterator, m = s && o[s], i = 0;
-  if (m)
-    return m.call(o);
-  if (o && typeof o.length === "number")
-    return {
-      next: function() {
-        if (o && i >= o.length)
-          o = void 0;
-        return { value: o && o[i++], done: !o };
-      }
-    };
+  if (m) return m.call(o);
+  if (o && typeof o.length === "number") return {
+    next: function() {
+      if (o && i >= o.length) o = void 0;
+      return { value: o && o[i++], done: !o };
+    }
+  };
   throw new TypeError(s ? "Object is not iterable." : "Symbol.iterator is not defined.");
 }
 function __await(v) {
   return this instanceof __await ? (this.v = v, this) : new __await(v);
 }
 function __asyncGenerator(thisArg, _arguments, generator) {
-  if (!Symbol.asyncIterator)
-    throw new TypeError("Symbol.asyncIterator is not defined.");
+  if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
   var g = generator.apply(thisArg, _arguments || []), i, q = [];
   return i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function() {
     return this;
   }, i;
   function verb(n) {
-    if (g[n])
-      i[n] = function(v) {
-        return new Promise(function(a, b) {
-          q.push([n, v, a, b]) > 1 || resume(n, v);
-        });
-      };
+    if (g[n]) i[n] = function(v) {
+      return new Promise(function(a, b) {
+        q.push([n, v, a, b]) > 1 || resume(n, v);
+      });
+    };
   }
   function resume(n, v) {
     try {
@@ -5957,8 +6322,7 @@ function __asyncGenerator(thisArg, _arguments, generator) {
     resume("throw", value);
   }
   function settle(f, v) {
-    if (f(v), q.shift(), q.length)
-      resume(q[0][0], q[0][1]);
+    if (f(v), q.shift(), q.length) resume(q[0][0], q[0][1]);
   }
 }
 var RepeaterOverflowError = (
@@ -6169,11 +6533,9 @@ function stop(r, err) {
       e_1 = { error: e_1_1 };
     } finally {
       try {
-        if (_d && !_d.done && (_a = _b.return))
-          _a.call(_b);
+        if (_d && !_d.done && (_a = _b.return)) _a.call(_b);
       } finally {
-        if (e_1)
-          throw e_1.error;
+        if (e_1) throw e_1.error;
       }
     }
   }
@@ -6200,11 +6562,9 @@ function finish(r) {
     e_2 = { error: e_2_1 };
   } finally {
     try {
-      if (_d && !_d.done && (_a = _b.return))
-        _a.call(_b);
+      if (_d && !_d.done && (_a = _b.return)) _a.call(_b);
     } finally {
-      if (e_2)
-        throw e_2.error;
+      if (e_2) throw e_2.error;
     }
   }
   r.pushes = [];
@@ -6242,6 +6602,8 @@ function push(r, value) {
     next_1.resolve(createIteration(r, valueP));
     if (r.nexts.length) {
       nextP = Promise.resolve(r.nexts[0].value);
+    } else if (typeof r.buffer !== "undefined" && !r.buffer.full) {
+      nextP = Promise.resolve(void 0);
     } else {
       nextP = new Promise(function(resolve) {
         return r.onnext = resolve;
@@ -6405,8 +6767,7 @@ function getIterators(values, options) {
           return __generator(this, function(_a2) {
             switch (_a2.label) {
               case 0:
-                if (!options.yieldValues)
-                  return [3, 3];
+                if (!options.yieldValues) return [3, 3];
                 return [4, __await(value2)];
               case 1:
                 return [4, _a2.sent()];
@@ -6414,8 +6775,7 @@ function getIterators(values, options) {
                 _a2.sent();
                 _a2.label = 3;
               case 3:
-                if (!options.returnValues)
-                  return [3, 5];
+                if (!options.returnValues) return [3, 5];
                 return [4, __await(value2)];
               case 4:
                 return [2, _a2.sent()];
@@ -6439,11 +6799,9 @@ function getIterators(values, options) {
     e_3 = { error: e_3_1 };
   } finally {
     try {
-      if (values_1_1 && !values_1_1.done && (_a = values_1.return))
-        _a.call(values_1);
+      if (values_1_1 && !values_1_1.done && (_a = values_1.return)) _a.call(values_1);
     } finally {
-      if (e_3)
-        throw e_3.error;
+      if (e_3) throw e_3.error;
     }
   }
   return iters;
@@ -6502,11 +6860,9 @@ function race(contenders) {
                       e_4 = { error: e_4_1 };
                     } finally {
                       try {
-                        if (iters_1_1 && !iters_1_1.done && (_a2 = iters_1.return))
-                          _a2.call(iters_1);
+                        if (iters_1_1 && !iters_1_1.done && (_a2 = iters_1.return)) _a2.call(iters_1);
                       } finally {
-                        if (e_4)
-                          throw e_4.error;
+                        if (e_4) throw e_4.error;
                       }
                     }
                     return [4, new Promise(function(resolve) {
@@ -6514,8 +6870,7 @@ function race(contenders) {
                     })];
                   case 1:
                     iteration = _b.sent();
-                    if (!(iteration !== void 0))
-                      return [3, 3];
+                    if (!(iteration !== void 0)) return [3, 3];
                     return [4, push2(iteration.value)];
                   case 2:
                     _b.sent();
@@ -6530,8 +6885,7 @@ function race(contenders) {
             };
             _a.label = 2;
           case 2:
-            if (!!stopped)
-              return [3, 4];
+            if (!!stopped) return [3, 4];
             return [5, _loop_2()];
           case 3:
             _a.sent();
@@ -6590,11 +6944,9 @@ function merge(contenders) {
                 e_5 = { error: e_5_1 };
               } finally {
                 try {
-                  if (advances_1_1 && !advances_1_1.done && (_a2 = advances_1.return))
-                    _a2.call(advances_1);
+                  if (advances_1_1 && !advances_1_1.done && (_a2 = advances_1.return)) _a2.call(advances_1);
                 } finally {
-                  if (e_5)
-                    throw e_5.error;
+                  if (e_5) throw e_5.error;
                 }
               }
             });
@@ -6610,8 +6962,7 @@ function merge(contenders) {
                       _b.trys.push([0, , 6, 9]);
                       _b.label = 1;
                     case 1:
-                      if (!!stopped)
-                        return [3, 5];
+                      if (!!stopped) return [3, 5];
                       Promise.resolve(iter.next()).then(function(iteration2) {
                         return advances[i](iteration2);
                       }, function(err) {
@@ -6622,8 +6973,7 @@ function merge(contenders) {
                       })];
                     case 2:
                       iteration = _b.sent();
-                      if (!(iteration !== void 0))
-                        return [3, 4];
+                      if (!(iteration !== void 0)) return [3, 4];
                       if (iteration.done) {
                         finalIteration = iteration;
                         return [
@@ -6641,8 +6991,7 @@ function merge(contenders) {
                       return [3, 9];
                     case 6:
                       _a2 = iter.return;
-                      if (!_a2)
-                        return [3, 8];
+                      if (!_a2) return [3, 8];
                       return [4, iter.return()];
                     case 7:
                       _a2 = _b.sent();
@@ -6703,8 +7052,7 @@ function zip(contenders) {
             _a.trys.push([1, , 6, 8]);
             _a.label = 2;
           case 2:
-            if (!!stopped)
-              return [3, 5];
+            if (!!stopped) return [3, 5];
             Promise.all(iters.map(function(iter) {
               return iter.next();
             })).then(function(iterations2) {
@@ -6789,11 +7137,9 @@ function latest(contenders) {
                 e_6 = { error: e_6_1 };
               } finally {
                 try {
-                  if (advances_2_1 && !advances_2_1.done && (_a2 = advances_2.return))
-                    _a2.call(advances_2);
+                  if (advances_2_1 && !advances_2_1.done && (_a2 = advances_2.return)) _a2.call(advances_2);
                 } finally {
-                  if (e_6)
-                    throw e_6.error;
+                  if (e_6) throw e_6.error;
                 }
               }
               stopped = true;
@@ -6841,8 +7187,7 @@ function latest(contenders) {
                       }
                       _a2.label = 1;
                     case 1:
-                      if (!!stopped)
-                        return [3, 4];
+                      if (!!stopped) return [3, 4];
                       Promise.resolve(iter.next()).then(function(iteration2) {
                         return advances[i](iteration2);
                       }, function(err) {
@@ -6896,7 +7241,7 @@ function latest(contenders) {
   });
 }
 
-// ../../../node_modules/.pnpm/@graphql-yoga+subscription@5.0.0/node_modules/@graphql-yoga/subscription/esm/create-pub-sub.js
+// ../../../node_modules/.pnpm/@graphql-yoga+subscription@5.0.1/node_modules/@graphql-yoga/subscription/esm/create-pub-sub.js
 var import_events = __toESM(require_node_ponyfill(), 1);
 var createPubSub = (config) => {
   const target = config?.eventTarget ?? new EventTarget();
@@ -6924,7 +7269,7 @@ var createPubSub = (config) => {
   };
 };
 
-// ../../../node_modules/.pnpm/@graphql-yoga+subscription@5.0.0/node_modules/@graphql-yoga/subscription/esm/operator/filter.js
+// ../../../node_modules/.pnpm/@graphql-yoga+subscription@5.0.1/node_modules/@graphql-yoga/subscription/esm/operator/filter.js
 function filter(filter2) {
   return (source) => new Repeater(async (push2, stop2) => {
     const iterable = source[Symbol.asyncIterator]();
@@ -6941,7 +7286,7 @@ function filter(filter2) {
   });
 }
 
-// ../../../node_modules/.pnpm/@graphql-yoga+subscription@5.0.0/node_modules/@graphql-yoga/subscription/esm/operator/map.js
+// ../../../node_modules/.pnpm/@graphql-yoga+subscription@5.0.1/node_modules/@graphql-yoga/subscription/esm/operator/map.js
 var map = (mapper) => (source) => new Repeater(async (push2, stop2) => {
   const iterable = source[Symbol.asyncIterator]();
   stop2.then(() => {
@@ -6954,7 +7299,7 @@ var map = (mapper) => (source) => new Repeater(async (push2, stop2) => {
   stop2();
 });
 
-// ../../../node_modules/.pnpm/@graphql-yoga+subscription@5.0.0/node_modules/@graphql-yoga/subscription/esm/utils/pipe.js
+// ../../../node_modules/.pnpm/@graphql-yoga+subscription@5.0.1/node_modules/@graphql-yoga/subscription/esm/utils/pipe.js
 function pipe(a, ab, bc, cd, de, ef, fg, gh, hi) {
   switch (arguments.length) {
     case 1:
@@ -6984,8 +7329,20 @@ function pipe(a, ab, bc, cd, de, ef, fg, gh, hi) {
   }
 }
 
-// ../../../node_modules/.pnpm/graphql-yoga@5.1.1_graphql@16.8.1/node_modules/graphql-yoga/esm/index.js
-import { mergeSchemas } from "https://esm.sh/@graphql-tools/schema@10.0.2";
+// ../../../node_modules/.pnpm/graphql-yoga@5.7.0_graphql@16.9.0/node_modules/graphql-yoga/esm/index.js
+import { mergeSchemas } from "https://esm.sh/@graphql-tools/schema@10.0.6";
+
+// ../../../node_modules/.pnpm/graphql-yoga@5.7.0_graphql@16.9.0/node_modules/graphql-yoga/esm/plugins/use-execution-cancellation.js
+function useExecutionCancellation() {
+  return {
+    onExecute({ args }) {
+      args.signal = args.contextValue?.request?.signal ?? void 0;
+    },
+    onSubscribe({ args }) {
+      args.signal = args.contextValue?.request?.signal ?? void 0;
+    }
+  };
+}
 
 export {
   createGraphQLError,
@@ -7023,6 +7380,7 @@ export {
   filter,
   map,
   pipe,
+  useExecutionCancellation,
   mergeSchemas
 };
 /*! Bundled license information:

@@ -1,4 +1,4 @@
-import { build, BuildOptions } from "https://deno.land/x/esbuild@v0.19.11/mod.js";
+import { build, BuildOptions } from "https://deno.land/x/esbuild@v0.23.1/mod.js";
 import { builtinModules } from "node:module";
 import path from "node:path";
 import process from "node:process";
@@ -8,7 +8,7 @@ import process from "node:process";
  */
 export interface BundlingOptions {
 	/**
-	 * Module file that default exports a HatTip handler.
+	 * Module file that default exports a Hattip handler.
 	 * You have to provide either this or `cfwEntry`, but
 	 * not both.
 	 */

@@ -1,4 +1,4 @@
-import * as whatwgNodeFetch from "npm:@whatwg-node/fetch@0.9.15";
+import * as whatwgNodeFetch from "npm:@whatwg-node/fetch@0.9.21";
 import { Readable } from "node:stream";
 import { Buffer } from "node:buffer";
 
